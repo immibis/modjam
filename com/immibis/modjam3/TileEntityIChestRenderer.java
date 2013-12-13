@@ -3,6 +3,7 @@ package com.immibis.modjam3;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelChest;
+import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityEnderChest;
@@ -16,7 +17,27 @@ public class TileEntityIChestRenderer extends TileEntitySpecialRenderer
     private static final ResourceLocation field_110637_a = new ResourceLocation("immibis_modjam3", "textures/ichest.png");
 
     /** The Ender Chest Chest's model. */
-    private ModelChest theEnderChestModel = new ModelChest();
+    private ModelChest theEnderChestModel = new ModelChest() {
+    	ModelRenderer chin;
+    	
+    	{
+    		// magic
+    		chestKnob.cubeList.clear();
+        	chestKnob.addBox(-2.0F, -2.0F, -16.0F, 4, 2, 2, 0.0F);
+        	chin = new ModelRenderer(this, 0, 4).setTextureSize(64, 64);
+            chin.addBox(-1.0F, -0.0F, -15.0F, 2, 2, 2, 0.0F);
+            chin.rotationPointX = 8.0F;
+    		chin.rotationPointY = 7.0F;
+    		chin.rotationPointZ = 15.0F;
+    	}
+    	
+        @Override
+        public void renderAll() {
+    		super.renderAll();
+    		chin.rotateAngleX = chestLid.rotateAngleX;
+    		chin.render(0.0625f);
+    	}
+    };
 
     /**
      * Helps to render Ender Chest.

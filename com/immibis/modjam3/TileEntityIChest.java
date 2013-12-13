@@ -1,10 +1,16 @@
 package com.immibis.modjam3;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityIChest extends TileEntity {
+public class TileEntityIChest extends TileEntity implements IInventory {
 	/** The current angle of the chest lid (between 0 and 1) */
     public float lidAngle;
 
@@ -17,7 +23,10 @@ public class TileEntityIChest extends TileEntity {
     /** Server sync counter (once per 20 ticks) */
     private int ticksSinceSync;
     
-    private String owner = "";
+    String owner = "";
+    InventoryPlayer inv;
+    EntityPlayer ply;
+    ItemStack[] cl_inv = new ItemStack[36];
 
     /**
      * Allows the entity to update its state. Overridden in most subclasses, e.g. the mob spawner uses this to count
@@ -26,6 +35,14 @@ public class TileEntityIChest extends TileEntity {
     public void updateEntity()
     {
         super.updateEntity();
+        
+        if(!worldObj.isRemote) {
+        	if(ply == null || ply.isDead)
+        		ply = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(owner);
+        	inv = (ply == null ? null : ply.inventory);
+        	cl_inv = null;
+        	
+        }
 
         if (++this.ticksSinceSync % 20 * 4 == 0)
         {
@@ -118,4 +135,81 @@ public class TileEntityIChest extends TileEntity {
     {
         return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
     }
+    
+    @Override
+    public void writeToNBT(NBTTagCompound par1nbtTagCompound) {
+    	super.writeToNBT(par1nbtTagCompound);
+    	par1nbtTagCompound.setString("owner", owner);
+    }
+    
+    @Override
+    public void readFromNBT(NBTTagCompound par1nbtTagCompound) {
+    	super.readFromNBT(par1nbtTagCompound);
+    	owner = par1nbtTagCompound.getString("owner");
+    }
+
+	@Override
+	public ItemStack decrStackSize(int i, int j) {
+		if(worldObj.isRemote) {
+			if(cl_inv[i] == null)
+				return null;
+			if(cl_inv[i].stackSize <= j) {
+				ItemStack rv = cl_inv[i];
+				cl_inv[i] = null;
+				return rv;
+			}
+			return cl_inv[i].splitStack(j);
+		}
+		return inv == null ? null : inv.decrStackSize(i, j);
+	}
+	
+	@Override
+	public int getInventoryStackLimit() {
+		return 64;
+	}
+	
+	@Override
+	public String getInvName() {
+		return "immibis_modjam3.ichest_inv";
+	}
+	
+	@Override
+	public boolean isInvNameLocalized() {
+		return false;
+	}
+	
+	@Override
+	public int getSizeInventory() {
+		return 36;
+	}
+	
+	@Override
+	public ItemStack getStackInSlot(int i) {
+		return worldObj.isRemote ? cl_inv[i] : inv != null ? inv.getStackInSlot(i) : null;
+	}
+	
+	@Override
+	public ItemStack getStackInSlotOnClosing(int i) {
+		return null;
+	}
+	
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+		return worldObj.isRemote || inv != null;
+	}
+	
+	@Override
+	public void onInventoryChanged() {
+		super.onInventoryChanged();
+		if(inv != null)
+			inv.onInventoryChanged();
+	}
+	
+	@Override
+	public void setInventorySlotContents(int i, ItemStack itemstack) {
+		if(worldObj.isRemote)
+			cl_inv[i] = itemstack;
+		else if(inv != null)
+			inv.setInventorySlotContents(i, itemstack);
+	}
 }

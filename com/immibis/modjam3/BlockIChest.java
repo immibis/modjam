@@ -57,6 +57,8 @@ public class BlockIChest extends BlockContainer {
             b0 = 4;
 
         par1World.setBlockMetadataWithNotify(par2, par3, par4, b0, 2);
+        
+        ((TileEntityIChest)par1World.getBlockTileEntity(par2, par3, par4)).owner = (par5EntityLivingBase instanceof EntityPlayer ? ((EntityPlayer)par5EntityLivingBase).username : "");
     }
 
     /**
@@ -64,22 +66,9 @@ public class BlockIChest extends BlockContainer {
      */
     public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
     {
-        InventoryEnderChest inventoryenderchest = null; //par5EntityPlayer.getInventoryEnderChest();
-        TileEntityEnderChest tileentityenderchest = null; //(TileEntityEnderChest)par1World.getBlockTileEntity(par2, par3, par4);
-
-        if (inventoryenderchest != null && tileentityenderchest != null)
-        {
-            if (!par1World.isBlockNormalCube(par2, par3 + 1, par4) && !par1World.isRemote)
-            {
-                //inventoryenderchest.setAssociatedChest(tileentityenderchest);
-                //par5EntityPlayer.displayGUIChest(inventoryenderchest);
-            }
-            return true;
-        }
-        else
-        {
-            return true;
-        }
+    	if(!par1World.isBlockNormalCube(par2, par3 + 1, par4) && !par1World.isRemote)
+    		par5EntityPlayer.openGui(Modjam3Mod.instance, Modjam3Mod.GUI_ICHEST, par1World, par2, par3, par4);
+    	return true;
     }
 
     /**

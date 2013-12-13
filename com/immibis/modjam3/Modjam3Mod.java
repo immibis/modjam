@@ -1,11 +1,15 @@
 package com.immibis.modjam3;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ContainerChest;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
@@ -14,16 +18,24 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid="ChickenBones", name="The Chicken Bones Mod", version="1.0")
-//@NetworkMod(clientSideRequired=true, serverSideRequired=false)
-public class Modjam3Mod {
+@NetworkMod(clientSideRequired=true, serverSideRequired=false)
+public class Modjam3Mod implements IGuiHandler {
+	
+	@Instance("ChickenBones")
+	public static Modjam3Mod instance;
+	
+	public static int GUI_ICHEST = 0;
 	
 	public static BlockIChest blockIChest;
 	public static Item itemChickenBone;
@@ -72,8 +84,9 @@ public class Modjam3Mod {
 		GameRegistry.registerTileEntity(TileEntityIChest.class, "immibis_modjam3.ichest");
 		
 		
-		GameRegistry.addRecipe(new ItemStack(blockIChest), "###", "#C#", "###", 'C', Block.chest, '#', itemChickenBone);
+		GameRegistry.addRecipe(new ItemStack(blockIChest), "###", "#C#", "###", 'C', Block.enderChest, '#', itemChickenBone);
 		
+		NetworkRegistry.instance().registerGuiHandler(this, this);
 		
 		proxy.init();
 		
@@ -85,5 +98,19 @@ public class Modjam3Mod {
 		if(evt.entity instanceof EntityChicken) {
 			evt.drops.add(new EntityItem(evt.entity.worldObj, evt.entity.posX, evt.entity.posY, evt.entity.posZ, new ItemStack(itemChickenBone, evt.entity.worldObj.rand.nextInt(4))));
 		}
+	}
+	
+	@Override
+	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		if(ID == GUI_ICHEST)
+			return new GuiChest(player.inventory, ((TileEntityIChest)world.getBlockTileEntity(x, y, z)));
+		return null;
+	}
+	
+	@Override
+	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		if(ID == GUI_ICHEST)
+			return new ContainerChest(player.inventory, ((TileEntityIChest)world.getBlockTileEntity(x, y, z)));
+		return null;
 	}
 }
