@@ -7,6 +7,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerChest;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -17,6 +18,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.common.ICraftingHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
@@ -30,7 +32,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid="ChickenBones", name="The Chicken Bones Mod", version="1.0")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
-public class Modjam3Mod implements IGuiHandler {
+public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 	
 	@Instance("ChickenBones")
 	public static Modjam3Mod instance;
@@ -86,6 +88,7 @@ public class Modjam3Mod implements IGuiHandler {
 		
 		GameRegistry.addRecipe(new ItemStack(blockIChest), "###", "#C#", "###", 'C', Block.enderChest, '#', itemChickenBone);
 		
+		GameRegistry.registerCraftingHandler(this);
 		NetworkRegistry.instance().registerGuiHandler(this, this);
 		
 		proxy.init();
@@ -112,5 +115,17 @@ public class Modjam3Mod implements IGuiHandler {
 		if(ID == GUI_ICHEST)
 			return new ContainerChest(player.inventory, ((TileEntityIChest)world.getBlockTileEntity(x, y, z)));
 		return null;
+	}
+	
+	@Override
+	public void onCrafting(EntityPlayer player, ItemStack item, IInventory craftMatrix) {
+		if(item.itemID == blockIChest.blockID && !player.worldObj.isRemote)
+			player.worldObj.playSoundAtEntity(player, "immibis_modjam3:ichest.doppler", 1, 1);
+	}
+	
+	@Override
+	public void onSmelting(EntityPlayer player, ItemStack item) {
+		// TODO Auto-generated method stub
+		
 	}
 }
