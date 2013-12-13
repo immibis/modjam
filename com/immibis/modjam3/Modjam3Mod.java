@@ -81,7 +81,7 @@ public class Modjam3Mod {
 	@ForgeSubscribe
 	public void onLivingDrops(LivingDropsEvent evt) {
 		if(evt.entity instanceof EntityChicken) {
-			evt.drops.add(new EntityItem(evt.entity.worldObj, evt.entity.posX, evt.entity.posY, evt.entity.posZ, new ItemStack(Item.bone)));
+			evt.drops.add(new EntityItem(evt.entity.worldObj, evt.entity.posX, evt.entity.posY, evt.entity.posZ, new ItemStack(itemChickenBone, evt.entity.worldObj.rand.nextInt(4))));
 		}
 	}
 }
