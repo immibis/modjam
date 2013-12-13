@@ -10,6 +10,7 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -44,11 +45,20 @@ public class Modjam3Mod {
 		if(blockid_ichest == -1)
 			blockid_ichest = cfg.getBlock("ichest", 2345).getInt(2345);
 			
-		blockIChest = new BlockIChest(blockid_ichest);
-		GameRegistry.registerBlock(blockIChest, "ichest");
-		
 		if(cfg.hasChanged())
 			cfg.save();
+		
+		
+		
+		
+		blockIChest = new BlockIChest(blockid_ichest);
+		
+		GameRegistry.registerBlock(blockIChest, "ichest");
+		
+		GameRegistry.registerTileEntity(TileEntityIChest.class, "immibis_modjam3.ichest");
+		
+		
+		
 		
 		proxy.init();
 		
