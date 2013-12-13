@@ -64,15 +64,15 @@ public class BlockIChest extends BlockContainer {
      */
     public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
     {
-        InventoryEnderChest inventoryenderchest = par5EntityPlayer.getInventoryEnderChest();
-        TileEntityEnderChest tileentityenderchest = (TileEntityEnderChest)par1World.getBlockTileEntity(par2, par3, par4);
+        InventoryEnderChest inventoryenderchest = null; //par5EntityPlayer.getInventoryEnderChest();
+        TileEntityEnderChest tileentityenderchest = null; //(TileEntityEnderChest)par1World.getBlockTileEntity(par2, par3, par4);
 
         if (inventoryenderchest != null && tileentityenderchest != null)
         {
             if (!par1World.isBlockNormalCube(par2, par3 + 1, par4) && !par1World.isRemote)
             {
-                inventoryenderchest.setAssociatedChest(tileentityenderchest);
-                par5EntityPlayer.displayGUIChest(inventoryenderchest);
+                //inventoryenderchest.setAssociatedChest(tileentityenderchest);
+                //par5EntityPlayer.displayGUIChest(inventoryenderchest);
             }
             return true;
         }

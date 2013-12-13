@@ -1,5 +1,6 @@
 package com.immibis.modjam3;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.item.Item;
@@ -24,12 +25,14 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class Modjam3Mod {
 	
 	public static BlockIChest blockIChest;
+	public static Item itemChickenBone;
 	
 	@SidedProxy(clientSide="com.immibis.modjam3.ClientProxy", serverSide="com.immibis.modjam3.Proxy")
 	public static Proxy proxy;
 	
 	private Configuration cfg;
 	private int blockid_ichest = -1;
+	private int itemid_chickenBone = -1;
 	
 	@EventHandler
 	public void preinit(FMLPreInitializationEvent evt) {
@@ -38,12 +41,16 @@ public class Modjam3Mod {
 		
 		if(cfg.getCategory(Configuration.CATEGORY_BLOCK).keySet().contains("ichest"))
 			blockid_ichest = cfg.getBlock("ichest", 2345).getInt(2345);
+		if(cfg.getCategory(Configuration.CATEGORY_ITEM).keySet().contains("chickenbone"))
+			itemid_chickenBone = cfg.getItem("chickenbone", 23456).getInt(23456);
 	}
 	
 	@EventHandler
 	public void init(FMLInitializationEvent evt) {
 		if(blockid_ichest == -1)
 			blockid_ichest = cfg.getBlock("ichest", 2345).getInt(2345);
+		if(itemid_chickenBone == -1)
+			itemid_chickenBone = cfg.getItem("chickenbone", 23456).getInt(23456);
 			
 		if(cfg.hasChanged())
 			cfg.save();
@@ -52,6 +59,12 @@ public class Modjam3Mod {
 		
 		
 		blockIChest = new BlockIChest(blockid_ichest);
+		itemChickenBone = new Item(itemid_chickenBone);
+		
+		GameRegistry.registerItem(itemChickenBone, "chickenbone");
+		itemChickenBone.setCreativeTab(CreativeTabs.tabMaterials);
+		itemChickenBone.setTextureName("immibis_modjam3:chickenbone");
+		itemChickenBone.setUnlocalizedName("immibis_modjam3.chickenbone");
 		
 		GameRegistry.registerBlock(blockIChest, "ichest");
 		
