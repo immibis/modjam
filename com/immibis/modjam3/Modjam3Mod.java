@@ -11,6 +11,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -21,7 +22,10 @@ import cpw.mods.fml.common.registry.GameRegistry;
 //@NetworkMod(clientSideRequired=true, serverSideRequired=false)
 public class Modjam3Mod {
 	
-	public static BlockIChest blockIChest; 
+	public static BlockIChest blockIChest;
+	
+	@SidedProxy(clientSide="com.immibis.modjam3.ClientProxy", serverSide="com.immibis.modjam3.Proxy")
+	public static Proxy proxy;
 	
 	private Configuration cfg;
 	private int blockid_ichest = -1;
@@ -46,7 +50,7 @@ public class Modjam3Mod {
 		if(cfg.hasChanged())
 			cfg.save();
 		
-		
+		proxy.init();
 		
 		MinecraftForge.EVENT_BUS.register(this);
 	}
