@@ -1,8 +1,13 @@
 package com.immibis.modjam3;
 
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.ChestItemRenderHelper;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.IItemRenderer;
 
 public class BlockIChestRenderItem implements IItemRenderer {
@@ -30,10 +35,17 @@ public class BlockIChestRenderItem implements IItemRenderer {
 		}
 		return false;
 	}
+	
+	private TileEntity theChest = new TileEntityIChest();
 
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-		ChestItemRenderHelper.instance.renderChest(Block.enderChest, 0, 1);
+		if(type == ItemRenderType.EQUIPPED_FIRST_PERSON || type == ItemRenderType.EQUIPPED)
+			GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+		GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
+		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+        TileEntityRenderer.instance.renderTileEntityAt(theChest, 0.0D, 0.0D, 0.0D, 0.0F);
+        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 	}
 
 }

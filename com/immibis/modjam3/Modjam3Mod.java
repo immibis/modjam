@@ -1,5 +1,6 @@
 package com.immibis.modjam3;
 
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityChicken;
@@ -71,6 +72,7 @@ public class Modjam3Mod {
 		GameRegistry.registerTileEntity(TileEntityIChest.class, "immibis_modjam3.ichest");
 		
 		
+		GameRegistry.addRecipe(new ItemStack(blockIChest), "###", "#C#", "###", 'C', Block.chest, '#', itemChickenBone);
 		
 		
 		proxy.init();

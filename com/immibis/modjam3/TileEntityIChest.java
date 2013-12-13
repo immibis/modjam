@@ -16,6 +16,8 @@ public class TileEntityIChest extends TileEntity {
 
     /** Server sync counter (once per 20 ticks) */
     private int ticksSinceSync;
+    
+    private String owner = "";
 
     /**
      * Allows the entity to update its state. Overridden in most subclasses, e.g. the mob spawner uses this to count
