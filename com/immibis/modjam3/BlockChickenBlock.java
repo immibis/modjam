@@ -26,4 +26,25 @@ public class BlockChickenBlock extends Block {
 		setStepSound(soundMetalFootstep);
 	}
 	
+	@Override
+	public void onNeighborBlockChange(World w, int x, int y, int z, int par5) {
+		int oldMeta = w.getBlockMetadata(x, y, z);
+		boolean wasPowered = (oldMeta & 1) == 1;
+		
+		if(wasPowered != (w.getBlockPowerInput(x, y, z) > 0)) {
+			w.setBlockMetadataWithNotify(x, y, z, oldMeta ^ 1, 0);
+			
+			if(!wasPowered) {
+				w.addBlockEvent(x, y, z, blockID, 0, 0);
+			}
+		}
+	}
+	
+	@Override
+	public boolean onBlockEventReceived(World w, int x, int y, int z, int par5, int par6) {
+		w.spawnParticle("note", x + 0.5, y + 1.2D, z + 0.5D, 0 /* note number */, 0, 0);
+		w.playSound(x + 0.5, y + 0.5, z + 0.5, "mob.chicken.hurt", 1.0f, (w.rand.nextFloat() - w.rand.nextFloat()) * 0.2f + 1.0f, false);
+		return true;
+	}
+	
 }
