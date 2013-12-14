@@ -234,8 +234,8 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 	
 	@Override
 	public void onSmelting(EntityPlayer player, ItemStack item) {
-		if(item.itemID == itemChickenIngot.itemID && !player.worldObj.isRemote)
-			player.worldObj.playSoundAtEntity(player, "immibis_modjam3:ichest.doppler", 1, 1);
+		//if(item.itemID == itemChickenIngot.itemID && !player.worldObj.isRemote)
+			//player.worldObj.playSoundAtEntity(player, "immibis_modjam3:ichest.doppler", 1, 1);
 	}
 	
 	@ForgeSubscribe

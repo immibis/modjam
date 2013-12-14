@@ -9,6 +9,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
@@ -40,10 +41,32 @@ public class BlockChickenBlock extends Block {
 		}
 	}
 	
+	private static String[] names = {
+		"mob.chicken.hurt", "mob.chicken.hurt", "mob.chicken.hurt", "mob.chicken.hurt",
+		"mob.chicken.say","mob.chicken.say", "mob.chicken.say",
+		"immibis_modjam3:ichest.spindown"
+	};
+	private static float[] pitches = {
+		1.0f, 1.2f, 1.4f, 0.8f,
+		1.0f, 1.2f, 0.8f,
+		1.0f
+	};
+	
+	@Override
+	public boolean onBlockActivated(World w, int x, int y, int z, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
+		if(w.isRemote)
+			return true;
+		
+		w.setBlockMetadataWithNotify(x, y, z, (w.getBlockMetadata(x, y, z) + 2) & 15, 3);
+		w.addBlockEvent(x, y, z, blockID, 0, 0);
+		return true;
+	}
+	
 	@Override
 	public boolean onBlockEventReceived(World w, int x, int y, int z, int par5, int par6) {
-		w.spawnParticle("note", x + 0.5, y + 1.2D, z + 0.5D, 0 /* note number */, 0, 0);
-		w.playSound(x + 0.5, y + 0.5, z + 0.5, "mob.chicken.hurt", 1.0f, (w.rand.nextFloat() - w.rand.nextFloat()) * 0.2f + 1.0f, false);
+		int soundNum = w.getBlockMetadata(x, y, z) >> 1;
+		w.spawnParticle("note", x + 0.5, y + 1.2D, z + 0.5D, soundNum / 7f, 0, 0);
+		w.playSound(x + 0.5, y + 0.5, z + 0.5, names[soundNum], 1.0f, ((w.rand.nextFloat() - w.rand.nextFloat()) * 0.2f + 1.0f) * pitches[soundNum], false);
 		return true;
 	}
 	
