@@ -58,6 +58,7 @@ public class TileEntityIChestRenderer extends TileEntitySpecialRenderer
         GL11.glTranslatef((float)par2, (float)par4 + 1.0F, (float)par6 + 1.0F);
         GL11.glScalef(1.0F, -1.0F, -1.0F);
         GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+        
         short short1 = 0;
 
         if (i == 2)
@@ -87,9 +88,21 @@ public class TileEntityIChestRenderer extends TileEntitySpecialRenderer
         f1 = 1.0F - f1 * f1 * f1;
         this.theEnderChestModel.chestLid.rotateAngleX = -(f1 * (float)Math.PI / 2.0F);
         this.theEnderChestModel.renderAll();
+        
+        
+        
+        
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         GL11.glPopMatrix();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        
+        GL11.glPushMatrix();
+        GL11.glTranslated(par2 + 0.5, par4 + 0.5, par6 + 0.5);
+        ItemChickenRender.setYaw((System.currentTimeMillis() % 3600) / 10);
+        ItemChickenRender.rc.renderChicken(ItemChickenRender.chicken, -1, 1, 0, 0, 0);
+        ItemChickenRender.setYaw((System.currentTimeMillis() % 3600) / 10 + 180);
+        ItemChickenRender.rc.renderChicken(ItemChickenRender.chicken, 1, 1, 0, 0, 0);
+        GL11.glPopMatrix();
     }
 
     public void renderTileEntityAt(TileEntity par1TileEntity, double par2, double par4, double par6, float par8)

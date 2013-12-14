@@ -42,8 +42,8 @@ public class ItemChickenRender implements IItemRenderer {
 		return false;
 	}
 	
-	private RenderChicken rc = new RenderChicken(new ModelChicken(), 0.3f);
-	private EntityChicken chicken = new EntityChicken(null) {
+	public static RenderChicken rc = new RenderChicken(new ModelChicken(), 0.3f);
+	public static EntityChicken chicken = new EntityChicken(null) {
 		public float getBrightness(float par1) {return 1;}
 	};
 
@@ -67,6 +67,7 @@ public class ItemChickenRender implements IItemRenderer {
 		}
 		RenderManager.instance.renderEngine = Minecraft.getMinecraft().getTextureManager();
 		rc.setRenderManager(RenderManager.instance);
+		setYaw(0);
 		rc.doRender(chicken, 0, 0, 0, 0, 0);
 		
 		GL11.glColor3f(1, 1, 1);
@@ -76,6 +77,12 @@ public class ItemChickenRender implements IItemRenderer {
 		OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		RenderHelper.enableStandardItemLighting();
+	}
+
+	public static void setYaw(double yaw) {
+		chicken.rotationYaw = chicken.rotationYawHead =
+				chicken.prevRotationYaw = chicken.prevRotationYawHead =
+				chicken.renderYawOffset = chicken.prevRenderYawOffset = (float) yaw;
 	}
 
 }
