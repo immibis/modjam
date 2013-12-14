@@ -63,6 +63,7 @@ public class ItemChickenRender implements IItemRenderer {
 			//GL11.glTranslatef(-0.5f, -0.5f, -0.5f);
 			GL11.glScalef(1.2f, 1.2f, 1.2f);
 			break;
+		default: return;
 		}
 		RenderManager.instance.renderEngine = Minecraft.getMinecraft().getTextureManager();
 		rc.setRenderManager(RenderManager.instance);
