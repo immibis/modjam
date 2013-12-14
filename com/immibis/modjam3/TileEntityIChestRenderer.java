@@ -96,13 +96,13 @@ public class TileEntityIChestRenderer extends TileEntitySpecialRenderer
         GL11.glPopMatrix();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         
-        GL11.glPushMatrix();
+        /*GL11.glPushMatrix();
         GL11.glTranslated(par2 + 0.5, par4 + 0.5, par6 + 0.5);
         ItemChickenRender.setYaw((System.currentTimeMillis() % 3600) / 10);
         ItemChickenRender.renderChicken(-1, 1, 0);
         ItemChickenRender.setYaw((System.currentTimeMillis() % 3600) / 10 + 180);
         ItemChickenRender.renderChicken(1, 1, 0);
-        GL11.glPopMatrix();
+        GL11.glPopMatrix();*/
     }
 
     public void renderTileEntityAt(TileEntity par1TileEntity, double par2, double par4, double par6, float par8)
