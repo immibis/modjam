@@ -9,11 +9,13 @@ import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.EnumHelper;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -50,6 +52,9 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 	public static Item itemChickenCore;
 	public static Item itemChickenIngot;
 	public static ItemChickenStaff itemChickenStaff;
+	public static Item itemChickaxe;
+	
+	public static EnumToolMaterial toolMaterialChicken = EnumHelper.addToolMaterial("IMMIBIS_MJ3", 1, 500, 8.0f, 0.0f, 35);
 	
 	@SidedProxy(clientSide="com.immibis.modjam3.ClientProxy", serverSide="com.immibis.modjam3.Proxy")
 	public static Proxy proxy;
@@ -63,6 +68,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 	private int itemid_chickencore = -1;
 	private int itemid_chickenstaff = -1;
 	private int itemid_chickeningot = -1;
+	private int itemid_chickaxe = -1;
 	
 	private int preinit_block(String name) {
 		if(cfg.getCategory(Configuration.CATEGORY_BLOCK).keySet().contains(name))
@@ -91,6 +97,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 		itemid_chickencore = preinit_item("chickencore");
 		itemid_chickenstaff = preinit_item("chickenstaff");
 		itemid_chickeningot = preinit_item("chickeningot");
+		itemid_chickaxe = preinit_item("chickaxe");
 	}
 	
 	@EventHandler
@@ -111,6 +118,8 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 			itemid_chickenstaff = cfg.getItem("chickenstaff", 23457).getInt(23457);
 		if(itemid_chickeningot == -1)
 			itemid_chickeningot = cfg.getItem("chickeningot", 23457).getInt(23457);
+		if(itemid_chickaxe == -1)
+			itemid_chickaxe = cfg.getItem("chickaxe", 23456).getInt(23456);
 			
 		if(cfg.hasChanged())
 			cfg.save();
@@ -123,6 +132,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 		itemEggStaff = new ItemEggStaff(itemid_eggstaff);
 		itemChicken = new ItemChicken(itemid_chicken);
 		itemChickenStaff = new ItemChickenStaff(itemid_chickenstaff);
+		itemChickaxe = new ItemChickaxe(itemid_chickaxe);
 		
 		itemChickenCore = new Item(itemid_chickencore).setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickencore").setUnlocalizedName("immibis_modjam3.chickencore");
 		itemChickenIngot = new Item(itemid_chickeningot).setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickeningot").setUnlocalizedName("immibis_modjam3.chickeningot");
@@ -138,6 +148,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 		GameRegistry.registerItem(itemChickenCore, "chickencore");
 		GameRegistry.registerItem(itemChickenIngot, "chickeningot");
 		GameRegistry.registerItem(itemChickenStaff, "chickenstaff");
+		GameRegistry.registerItem(itemChickaxe, "chickaxe");
 		GameRegistry.registerBlock(blockIChest, "ichest");
 		GameRegistry.registerBlock(blockChickenOre, "chickenore");
 		
