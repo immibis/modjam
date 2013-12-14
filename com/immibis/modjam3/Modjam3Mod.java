@@ -42,6 +42,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 	public static int GUI_ICHEST = 0;
 	
 	public static BlockIChest blockIChest;
+	public static BlockChickenOre blockChickenOre;
 	public static Item itemChickenBone;
 	public static Item itemEggStaff;
 	
@@ -50,16 +51,24 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 	
 	private Configuration cfg;
 	private int blockid_ichest = -1;
+	private int blockid_chore = -1;
 	private int itemid_chickenBone = -1;
 	private int itemid_eggstaff = -1;
+	
+	private int preinit_block(String name) {
+		if(cfg.getCategory(Configuration.CATEGORY_BLOCK).keySet().contains(name))
+			return cfg.getBlock(name, 2345).getInt(2345);
+		else
+			return -1;
+	}
 	
 	@EventHandler
 	public void preinit(FMLPreInitializationEvent evt) {
 		cfg = new Configuration(evt.getSuggestedConfigurationFile());
 		cfg.load();
 		
-		if(cfg.getCategory(Configuration.CATEGORY_BLOCK).keySet().contains("ichest"))
-			blockid_ichest = cfg.getBlock("ichest", 2345).getInt(2345);
+		blockid_ichest = preinit_block("ichest");
+		blockid_chore = preinit_block("chickenOre");
 		if(cfg.getCategory(Configuration.CATEGORY_ITEM).keySet().contains("chickenbone"))
 			itemid_chickenBone = cfg.getItem("chickenbone", 23456).getInt(23456);
 		if(cfg.getCategory(Configuration.CATEGORY_ITEM).keySet().contains("eggstaff"))
@@ -70,6 +79,8 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 	public void init(FMLInitializationEvent evt) {
 		if(blockid_ichest == -1)
 			blockid_ichest = cfg.getBlock("ichest", 2345).getInt(2345);
+		if(blockid_chore == -1)
+			blockid_chore = cfg.getBlock("chickenOre", 2345).getInt(2345);
 		if(itemid_chickenBone == -1)
 			itemid_chickenBone = cfg.getItem("chickenbone", 23456).getInt(23456);
 		if(itemid_eggstaff == -1)
@@ -82,6 +93,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 		
 		
 		blockIChest = new BlockIChest(blockid_ichest);
+		blockChickenOre = new BlockChickenOre(blockid_chore);
 		itemEggStaff = new ItemEggStaff(itemid_eggstaff);
 		
 		itemChickenBone = new Item(itemid_chickenBone);
@@ -92,6 +104,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 		
 		GameRegistry.registerItem(itemEggStaff, "eggstaff");
 		GameRegistry.registerBlock(blockIChest, "ichest");
+		GameRegistry.registerBlock(blockChickenOre, "chickenore");
 		
 		GameRegistry.registerTileEntity(TileEntityIChest.class, "immibis_modjam3.ichest");
 		
