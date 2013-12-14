@@ -21,6 +21,8 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.ICraftingHandler;
 import cpw.mods.fml.common.Mod;
@@ -53,8 +55,9 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 	public static Item itemChickenIngot;
 	public static ItemChickenStaff itemChickenStaff;
 	public static Item itemChickaxe;
+	public static Item itemChickenNugget;
 	
-	public static EnumToolMaterial toolMaterialChicken = EnumHelper.addToolMaterial("IMMIBIS_MJ3", 1, 500, 8.0f, 0.0f, 35);
+	public static EnumToolMaterial toolMaterialChicken = EnumHelper.addToolMaterial("IMMIBIS_MJ3", 1, 500, 16.0f, 0.0f, 35);
 	
 	@SidedProxy(clientSide="com.immibis.modjam3.ClientProxy", serverSide="com.immibis.modjam3.Proxy")
 	public static Proxy proxy;
@@ -69,6 +72,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 	private int itemid_chickenstaff = -1;
 	private int itemid_chickeningot = -1;
 	private int itemid_chickaxe = -1;
+	private int itemid_cnugget = -1;
 	
 	private int preinit_block(String name) {
 		if(cfg.getCategory(Configuration.CATEGORY_BLOCK).keySet().contains(name))
@@ -98,6 +102,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 		itemid_chickenstaff = preinit_item("chickenstaff");
 		itemid_chickeningot = preinit_item("chickeningot");
 		itemid_chickaxe = preinit_item("chickaxe");
+		itemid_cnugget = preinit_item("chickenNugget");
 	}
 	
 	@EventHandler
@@ -120,6 +125,8 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 			itemid_chickeningot = cfg.getItem("chickeningot", 23457).getInt(23457);
 		if(itemid_chickaxe == -1)
 			itemid_chickaxe = cfg.getItem("chickaxe", 23456).getInt(23456);
+		if(itemid_cnugget == -1)
+			itemid_cnugget = cfg.getItem("chickenNugget", 23456).getInt(23456);
 			
 		if(cfg.hasChanged())
 			cfg.save();
@@ -136,6 +143,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 		
 		itemChickenCore = new Item(itemid_chickencore).setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickencore").setUnlocalizedName("immibis_modjam3.chickencore");
 		itemChickenIngot = new Item(itemid_chickeningot).setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickeningot").setUnlocalizedName("immibis_modjam3.chickeningot");
+		itemChickenNugget = new Item(itemid_cnugget).setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickennugget").setUnlocalizedName("immibis_modjam3.chickennugget");
 		
 		itemChickenBone = new Item(itemid_chickenBone);
 		itemChickenBone.setCreativeTab(CreativeTabs.tabMaterials);
@@ -157,11 +165,13 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 		
 		GameRegistry.addRecipe(new ItemStack(blockIChest), "###", "#C#", "###", 'C', Block.enderChest, '#', itemChickenBone);
 		GameRegistry.addRecipe(new ItemStack(itemEggStaff), "  #", " / ", "/  ", '#', Item.egg, '/', itemChickenBone);
-		GameRegistry.addRecipe(new ItemStack(itemChickenBone, 2), "#", '#', itemChicken);
+		GameRegistry.addRecipe(new ItemStack(itemChickenBone), "#", '#', itemChicken);
 		GameRegistry.addRecipe(new ItemStack(itemChickenCore), "###", "#O#", "###", '#', itemChickenBone, 'O', Item.chickenRaw);
 		GameRegistry.addRecipe(new ItemStack(itemChickenStaff), "  #", " / ", "/  ", '#', itemChickenCore, '/', itemChickenBone);
-		EntityRegistry.registerModEntity(EntityAngryChicken.class, "immibis_modjam3.angryChicken", 0, this, 100, 5, true);
+		GameRegistry.addRecipe(new ItemStack(itemChickaxe), "###", " | ", " | ", '#', itemChickenIngot, '|', itemChickenBone);
 		FurnaceRecipes.smelting().addSmelting(itemChicken.itemID, new ItemStack(itemChickenIngot), 1.5f);
+		
+		EntityRegistry.registerModEntity(EntityAngryChicken.class, "immibis_modjam3.angryChicken", 0, this, 100, 5, true);
 		
 		GameRegistry.registerCraftingHandler(this);
 		NetworkRegistry.instance().registerGuiHandler(this, this);
@@ -214,5 +224,15 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 	public void onSmelting(EntityPlayer player, ItemStack item) {
 		if(item.itemID == itemChickenIngot.itemID && !player.worldObj.isRemote)
 			player.worldObj.playSoundAtEntity(player, "immibis_modjam3:ichest.doppler", 1, 1);
+	}
+	
+	@ForgeSubscribe
+	public void onToolBreak(PlayerDestroyItemEvent evt) {
+		if(evt.original.getItem() == itemChickaxe && !evt.entity.worldObj.isRemote) {
+			EntityChicken ch = new EntityChicken(evt.entity.worldObj);
+			ch.setPosition(evt.entity.posX, evt.entity.posY, evt.entity.posZ);
+			evt.entity.worldObj.spawnEntityInWorld(ch);
+			evt.entity.worldObj.playSoundAtEntity(evt.entity, "immibis_modjam3:ichest.close", 0.5F, 1.0f);
+		}
 	}
 }
