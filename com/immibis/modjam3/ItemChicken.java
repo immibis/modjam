@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 
 public class ItemChicken extends Item {
 	public ItemChicken(int id) {
@@ -21,7 +22,8 @@ public class ItemChicken extends Item {
 		if(!par3World.isRemote) {
 			par1ItemStack.stackSize--;
 			EntityChicken ec = new EntityChicken(par3World);
-			ec.setPosition(par4, par5, par6);
+			ForgeDirection fd = ForgeDirection.VALID_DIRECTIONS[par7];
+			ec.setPosition(par4 + 0.5 + fd.offsetX, par5 + 0.5 + fd.offsetY, par6 + 0.5 + fd.offsetZ);
 			par3World.spawnEntityInWorld(ec);
 		}
 		return true;

@@ -46,6 +46,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 	public static Item itemChickenBone;
 	public static Item itemEggStaff;
 	public static ItemChicken itemChicken;
+	public static Item itemChickenCore;
 	
 	@SidedProxy(clientSide="com.immibis.modjam3.ClientProxy", serverSide="com.immibis.modjam3.Proxy")
 	public static Proxy proxy;
@@ -56,6 +57,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 	private int itemid_chickenBone = -1;
 	private int itemid_eggstaff = -1;
 	private int itemid_chicken = -1;
+	private int itemid_chickencore = -1;
 	
 	private int preinit_block(String name) {
 		if(cfg.getCategory(Configuration.CATEGORY_BLOCK).keySet().contains(name))
@@ -81,6 +83,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 		itemid_chickenBone = preinit_item("chickenbone");
 		itemid_eggstaff = preinit_item("eggstaff");
 		itemid_chicken = preinit_item("chicken");
+		itemid_chickencore = preinit_item("chickencore");
 	}
 	
 	@EventHandler
@@ -95,6 +98,8 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 			itemid_eggstaff = cfg.getItem("eggstaff", 23457).getInt(23457);
 		if(itemid_chicken == -1)
 			itemid_chicken = cfg.getItem("chicken", 23457).getInt(23457);
+		if(itemid_chickencore == -1)
+			itemid_chickencore = cfg.getItem("chickencore", 23457).getInt(23457);
 			
 		if(cfg.hasChanged())
 			cfg.save();
@@ -107,6 +112,8 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 		itemEggStaff = new ItemEggStaff(itemid_eggstaff);
 		itemChicken = new ItemChicken(itemid_chicken);
 		
+		itemChickenCore = new Item(itemid_chickencore).setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickencore").setUnlocalizedName("immibis_modjam3.chickencore");
+		
 		itemChickenBone = new Item(itemid_chickenBone);
 		itemChickenBone.setCreativeTab(CreativeTabs.tabMaterials);
 		itemChickenBone.setTextureName("immibis_modjam3:chickenbone");
@@ -115,6 +122,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 		GameRegistry.registerItem(itemChickenBone, "chickenbone");
 		GameRegistry.registerItem(itemEggStaff, "eggstaff");
 		GameRegistry.registerItem(itemChicken, "chicken");
+		GameRegistry.registerItem(itemChickenCore, "chickencore");
 		GameRegistry.registerBlock(blockIChest, "ichest");
 		GameRegistry.registerBlock(blockChickenOre, "chickenore");
 		
