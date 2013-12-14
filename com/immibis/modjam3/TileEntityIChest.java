@@ -57,7 +57,7 @@ public class TileEntityIChest extends TileEntity implements IInventory {
         {
             double d1 = (double)this.xCoord + 0.5D;
             d0 = (double)this.zCoord + 0.5D;
-            this.worldObj.playSoundEffect(d1, (double)this.yCoord + 0.5D, d0, "immibis_modjam3:ichest.open", 0.5F, this.worldObj.rand.nextFloat() * 0.4F + 0.8F);
+            this.worldObj.playSoundEffect(d1, (double)this.yCoord + 0.5D, d0, "immibis_modjam3:ichest.open", 0.5F, 1.0f);
         }
 
         if (this.numUsingPlayers == 0 && this.lidAngle > 0.0F || this.numUsingPlayers > 0 && this.lidAngle < 1.0F)
@@ -84,7 +84,7 @@ public class TileEntityIChest extends TileEntity implements IInventory {
             {
                 d0 = (double)this.xCoord + 0.5D;
                 double d2 = (double)this.zCoord + 0.5D;
-                this.worldObj.playSoundEffect(d0, (double)this.yCoord + 0.5D, d2, "immibis_modjam3:ichest.close", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+                this.worldObj.playSoundEffect(d0, (double)this.yCoord + 0.5D, d2, "immibis_modjam3:ichest.close", 0.5F, 1.0f);
             }
 
             if (this.lidAngle < 0.0F)

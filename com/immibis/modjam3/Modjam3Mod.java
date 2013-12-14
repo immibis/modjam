@@ -3,6 +3,7 @@ package com.immibis.modjam3;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,6 +29,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid="ChickenBones", name="The Chicken Bones Mod", version="1.0")
@@ -41,6 +43,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 	
 	public static BlockIChest blockIChest;
 	public static Item itemChickenBone;
+	public static Item itemEggStaff;
 	
 	@SidedProxy(clientSide="com.immibis.modjam3.ClientProxy", serverSide="com.immibis.modjam3.Proxy")
 	public static Proxy proxy;
@@ -48,6 +51,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 	private Configuration cfg;
 	private int blockid_ichest = -1;
 	private int itemid_chickenBone = -1;
+	private int itemid_eggstaff = -1;
 	
 	@EventHandler
 	public void preinit(FMLPreInitializationEvent evt) {
@@ -58,6 +62,8 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 			blockid_ichest = cfg.getBlock("ichest", 2345).getInt(2345);
 		if(cfg.getCategory(Configuration.CATEGORY_ITEM).keySet().contains("chickenbone"))
 			itemid_chickenBone = cfg.getItem("chickenbone", 23456).getInt(23456);
+		if(cfg.getCategory(Configuration.CATEGORY_ITEM).keySet().contains("eggstaff"))
+			itemid_eggstaff = cfg.getItem("eggstaff", 23457).getInt(23457);
 	}
 	
 	@EventHandler
@@ -66,6 +72,8 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 			blockid_ichest = cfg.getBlock("ichest", 2345).getInt(2345);
 		if(itemid_chickenBone == -1)
 			itemid_chickenBone = cfg.getItem("chickenbone", 23456).getInt(23456);
+		if(itemid_eggstaff == -1)
+			itemid_eggstaff = cfg.getItem("eggstaff", 23457).getInt(23457);
 			
 		if(cfg.hasChanged())
 			cfg.save();
@@ -74,19 +82,23 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 		
 		
 		blockIChest = new BlockIChest(blockid_ichest);
-		itemChickenBone = new Item(itemid_chickenBone);
+		itemEggStaff = new ItemEggStaff(itemid_eggstaff);
 		
+		itemChickenBone = new Item(itemid_chickenBone);
 		GameRegistry.registerItem(itemChickenBone, "chickenbone");
 		itemChickenBone.setCreativeTab(CreativeTabs.tabMaterials);
 		itemChickenBone.setTextureName("immibis_modjam3:chickenbone");
 		itemChickenBone.setUnlocalizedName("immibis_modjam3.chickenbone");
 		
+		GameRegistry.registerItem(itemEggStaff, "eggstaff");
 		GameRegistry.registerBlock(blockIChest, "ichest");
 		
 		GameRegistry.registerTileEntity(TileEntityIChest.class, "immibis_modjam3.ichest");
 		
 		
 		GameRegistry.addRecipe(new ItemStack(blockIChest), "###", "#C#", "###", 'C', Block.enderChest, '#', itemChickenBone);
+		GameRegistry.addRecipe(new ItemStack(itemEggStaff), "  #", " / ", "/  ", '#', Item.egg, '/', itemChickenBone);
+		EntityRegistry.registerModEntity(EntityAngryChicken.class, "immibis_modjam3.angryChicken", 0, this, 100, 5, true);
 		
 		GameRegistry.registerCraftingHandler(this);
 		NetworkRegistry.instance().registerGuiHandler(this, this);
@@ -100,6 +112,12 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 	public void onLivingDrops(LivingDropsEvent evt) {
 		if(evt.entity instanceof EntityChicken) {
 			evt.drops.add(new EntityItem(evt.entity.worldObj, evt.entity.posX, evt.entity.posY, evt.entity.posZ, new ItemStack(itemChickenBone, evt.entity.worldObj.rand.nextInt(4))));
+			
+			Entity source = evt.source.getEntity();
+			
+			if(source instanceof EntityPlayer)
+				for(int k = 0; k < 15; k++)
+					evt.entity.worldObj.spawnEntityInWorld(new EntityAngryChicken(evt.entity.worldObj, (EntityPlayer)source));
 		}
 	}
 	
