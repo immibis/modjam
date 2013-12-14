@@ -99,9 +99,9 @@ public class TileEntityIChestRenderer extends TileEntitySpecialRenderer
         GL11.glPushMatrix();
         GL11.glTranslated(par2 + 0.5, par4 + 0.5, par6 + 0.5);
         ItemChickenRender.setYaw((System.currentTimeMillis() % 3600) / 10);
-        ItemChickenRender.rc.renderChicken(ItemChickenRender.chicken, -1, 1, 0, 0, 0);
+        ItemChickenRender.renderChicken(-1, 1, 0);
         ItemChickenRender.setYaw((System.currentTimeMillis() % 3600) / 10 + 180);
-        ItemChickenRender.rc.renderChicken(ItemChickenRender.chicken, 1, 1, 0, 0, 0);
+        ItemChickenRender.renderChicken(1, 1, 0);
         GL11.glPopMatrix();
     }
 

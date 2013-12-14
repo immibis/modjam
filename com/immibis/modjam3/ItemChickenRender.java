@@ -85,4 +85,9 @@ public class ItemChickenRender implements IItemRenderer {
 				chicken.renderYawOffset = chicken.prevRenderYawOffset = (float) yaw;
 	}
 
+	public static void renderChicken(double x, double y, double z) {
+		rc.setRenderManager(RenderManager.instance);
+		rc.doRender(chicken, x, y, z, 0, 0);
+	}
+
 }
