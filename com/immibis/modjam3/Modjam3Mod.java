@@ -143,7 +143,6 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 	
 	@Override
 	public void onSmelting(EntityPlayer player, ItemStack item) {
-		// TODO Auto-generated method stub
 		
 	}
 }
