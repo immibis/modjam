@@ -7,6 +7,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 public class ClientProxy extends Proxy {
 	public void init() {
 		MinecraftForgeClient.registerItemRenderer(Modjam3Mod.blockIChest.blockID, new BlockIChestRenderItem());
+		MinecraftForgeClient.registerItemRenderer(Modjam3Mod.itemChicken.itemID, new ItemChickenRender());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityIChest.class, new TileEntityIChestRenderer());
 		
 		Minecraft.getMinecraft().sndManager.soundPoolSounds.addSound("immibis_modjam3:ichest/doppler.ogg");

@@ -45,6 +45,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 	public static BlockChickenOre blockChickenOre;
 	public static Item itemChickenBone;
 	public static Item itemEggStaff;
+	public static ItemChicken itemChicken;
 	
 	@SidedProxy(clientSide="com.immibis.modjam3.ClientProxy", serverSide="com.immibis.modjam3.Proxy")
 	public static Proxy proxy;
@@ -54,10 +55,18 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 	private int blockid_chore = -1;
 	private int itemid_chickenBone = -1;
 	private int itemid_eggstaff = -1;
+	private int itemid_chicken = -1;
 	
 	private int preinit_block(String name) {
 		if(cfg.getCategory(Configuration.CATEGORY_BLOCK).keySet().contains(name))
 			return cfg.getBlock(name, 2345).getInt(2345);
+		else
+			return -1;
+	}
+	
+	private int preinit_item(String name) {
+		if(cfg.getCategory(Configuration.CATEGORY_ITEM).keySet().contains(name))
+			return cfg.getItem(name, 23456).getInt(23456);
 		else
 			return -1;
 	}
@@ -69,10 +78,9 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 		
 		blockid_ichest = preinit_block("ichest");
 		blockid_chore = preinit_block("chickenOre");
-		if(cfg.getCategory(Configuration.CATEGORY_ITEM).keySet().contains("chickenbone"))
-			itemid_chickenBone = cfg.getItem("chickenbone", 23456).getInt(23456);
-		if(cfg.getCategory(Configuration.CATEGORY_ITEM).keySet().contains("eggstaff"))
-			itemid_eggstaff = cfg.getItem("eggstaff", 23457).getInt(23457);
+		itemid_chickenBone = preinit_item("chickenbone");
+		itemid_eggstaff = preinit_item("eggstaff");
+		itemid_chicken = preinit_item("chicken");
 	}
 	
 	@EventHandler
@@ -85,6 +93,8 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 			itemid_chickenBone = cfg.getItem("chickenbone", 23456).getInt(23456);
 		if(itemid_eggstaff == -1)
 			itemid_eggstaff = cfg.getItem("eggstaff", 23457).getInt(23457);
+		if(itemid_chicken == -1)
+			itemid_chicken = cfg.getItem("chicken", 23457).getInt(23457);
 			
 		if(cfg.hasChanged())
 			cfg.save();
@@ -95,14 +105,16 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 		blockIChest = new BlockIChest(blockid_ichest);
 		blockChickenOre = new BlockChickenOre(blockid_chore);
 		itemEggStaff = new ItemEggStaff(itemid_eggstaff);
+		itemChicken = new ItemChicken(itemid_chicken);
 		
 		itemChickenBone = new Item(itemid_chickenBone);
-		GameRegistry.registerItem(itemChickenBone, "chickenbone");
 		itemChickenBone.setCreativeTab(CreativeTabs.tabMaterials);
 		itemChickenBone.setTextureName("immibis_modjam3:chickenbone");
 		itemChickenBone.setUnlocalizedName("immibis_modjam3.chickenbone");
 		
+		GameRegistry.registerItem(itemChickenBone, "chickenbone");
 		GameRegistry.registerItem(itemEggStaff, "eggstaff");
+		GameRegistry.registerItem(itemChicken, "chicken");
 		GameRegistry.registerBlock(blockIChest, "ichest");
 		GameRegistry.registerBlock(blockChickenOre, "chickenore");
 		
@@ -111,6 +123,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 		
 		GameRegistry.addRecipe(new ItemStack(blockIChest), "###", "#C#", "###", 'C', Block.enderChest, '#', itemChickenBone);
 		GameRegistry.addRecipe(new ItemStack(itemEggStaff), "  #", " / ", "/  ", '#', Item.egg, '/', itemChickenBone);
+		GameRegistry.addRecipe(new ItemStack(itemChickenBone, 2), "#", '#', itemChicken);
 		EntityRegistry.registerModEntity(EntityAngryChicken.class, "immibis_modjam3.angryChicken", 0, this, 100, 5, true);
 		
 		GameRegistry.registerCraftingHandler(this);
