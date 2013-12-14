@@ -38,6 +38,12 @@ public class EntityAngryChicken extends EntityChicken {
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 	}
 	
+	protected void applyEntityAttributes()
+    {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(60.0D);
+    }
+	
 	@Override
 	public void onLivingUpdate() {
 		// TODO Auto-generated method stub
