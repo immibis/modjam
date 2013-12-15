@@ -9,8 +9,10 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -73,5 +75,20 @@ public class BlockChickenOre extends Block {
             if(closestEntity != null)
             	chicken.getLookHelper().setLookPosition(closestEntity.posX, closestEntity.posY + (double)closestEntity.getEyeHeight(), closestEntity.posZ, 10.0F, (float)chicken.getVerticalFaceSpeed());
         }
+	}
+	
+	@Override
+	public void onBlockHarvested(World w, int x, int y, int z, int par5, EntityPlayer par6EntityPlayer) {
+		if(!w.isRemote) {
+			Vec3 look = par6EntityPlayer.getLookVec();
+			look.yCoord = 0;
+			look.xCoord = -look.xCoord;
+			look.zCoord = -look.zCoord;
+			look.normalize();
+			look.xCoord += par6EntityPlayer.posX;
+			look.yCoord += par6EntityPlayer.posY + par6EntityPlayer.getEyeHeight();
+			look.zCoord += par6EntityPlayer.posZ;
+			w.playSoundEffect(look.xCoord, look.yCoord, look.zCoord, "random.fuse", 1.0f, 0.5f);
+		}
 	}
 }
