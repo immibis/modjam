@@ -98,6 +98,7 @@ public class BlockChickenPipeRender implements ISimpleBlockRenderingHandler {
 		}
 		
 		if(nz) {
+			t.setColorOpaque_F(0.8f, 0.8f, 0.8f);
 			t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMaxY, z+rb.renderMinZ, iXZ.getInterpolatedU(rb.renderMinX*16), iXZ.getInterpolatedV(rb.renderMaxY*16));
 			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMaxY, z+rb.renderMinZ, iXZ.getInterpolatedU(rb.renderMaxX*16), iXZ.getInterpolatedV(rb.renderMaxY*16));
 			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMinY, z+rb.renderMinZ, iXZ.getInterpolatedU(rb.renderMaxX*16), iXZ.getInterpolatedV(rb.renderMinY*16));
@@ -105,6 +106,7 @@ public class BlockChickenPipeRender implements ISimpleBlockRenderingHandler {
 		}
 		
 		if(pz) {
+			t.setColorOpaque_F(0.8f, 0.8f, 0.8f);
 			t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMinY, z+rb.renderMaxZ, iXZ.getInterpolatedU(rb.renderMinX*16), iXZ.getInterpolatedV(rb.renderMinY*16));
 			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMinY, z+rb.renderMaxZ, iXZ.getInterpolatedU(rb.renderMaxX*16), iXZ.getInterpolatedV(rb.renderMinY*16));
 			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMaxY, z+rb.renderMaxZ, iXZ.getInterpolatedU(rb.renderMaxX*16), iXZ.getInterpolatedV(rb.renderMaxY*16));
@@ -112,6 +114,7 @@ public class BlockChickenPipeRender implements ISimpleBlockRenderingHandler {
 		}
 		
 		if(ny) {
+			t.setColorOpaque_F(0.5f, 0.5f, 0.5f);
 			t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMinY, z+rb.renderMinZ, iY.getInterpolatedU(rb.renderMinX*16), iY.getInterpolatedV(rb.renderMinZ*16));
 			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMinY, z+rb.renderMinZ, iY.getInterpolatedU(rb.renderMaxX*16), iY.getInterpolatedV(rb.renderMinZ*16));
 			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMinY, z+rb.renderMaxZ, iY.getInterpolatedU(rb.renderMaxX*16), iY.getInterpolatedV(rb.renderMaxZ*16));
@@ -119,6 +122,7 @@ public class BlockChickenPipeRender implements ISimpleBlockRenderingHandler {
 		}
 		
 		if(py) {
+			t.setColorOpaque_F(1.0f, 1.0f, 1.0f);
 			t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMaxY, z+rb.renderMaxZ, iY.getInterpolatedU(rb.renderMinX*16), iY.getInterpolatedV(rb.renderMaxZ*16));
 			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMaxY, z+rb.renderMaxZ, iY.getInterpolatedU(rb.renderMaxX*16), iY.getInterpolatedV(rb.renderMaxZ*16));
 			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMaxY, z+rb.renderMinZ, iY.getInterpolatedU(rb.renderMaxX*16), iY.getInterpolatedV(rb.renderMinZ*16));
@@ -126,6 +130,7 @@ public class BlockChickenPipeRender implements ISimpleBlockRenderingHandler {
 		}
 		
 		if(nx) {
+			t.setColorOpaque_F(0.6f, 0.6f, 0.6f);
 			t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMinY, z+rb.renderMinZ, iXZ.getInterpolatedU(rb.renderMinZ*16), iXZ.getInterpolatedV(rb.renderMinY*16));
 			t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMinY, z+rb.renderMaxZ, iXZ.getInterpolatedU(rb.renderMaxZ*16), iXZ.getInterpolatedV(rb.renderMinY*16));
 			t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMaxY, z+rb.renderMaxZ, iXZ.getInterpolatedU(rb.renderMaxZ*16), iXZ.getInterpolatedV(rb.renderMaxY*16));
@@ -133,6 +138,7 @@ public class BlockChickenPipeRender implements ISimpleBlockRenderingHandler {
 		}
 		
 		if(px) {
+			t.setColorOpaque_F(0.6f, 0.6f, 0.6f);
 			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMaxY, z+rb.renderMinZ, iXZ.getInterpolatedU(rb.renderMinZ*16), iXZ.getInterpolatedV(rb.renderMaxY*16));
 			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMaxY, z+rb.renderMaxZ, iXZ.getInterpolatedU(rb.renderMaxZ*16), iXZ.getInterpolatedV(rb.renderMaxY*16));
 			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMinY, z+rb.renderMaxZ, iXZ.getInterpolatedU(rb.renderMaxZ*16), iXZ.getInterpolatedV(rb.renderMinY*16));
