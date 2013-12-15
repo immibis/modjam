@@ -33,6 +33,21 @@ public class BlockChickenPipeRender implements ISimpleBlockRenderingHandler {
 			renderer.renderStandardBlock(block, x, y, z);
 		}
 		
+		if(nx || px) {
+			renderer.setRenderBounds(nx ? 0 : min, min, min, px ? 1 : max, max, max);
+			renderer.renderStandardBlock(block, x, y, z);
+		}
+		
+		if(ny || py) {
+			renderer.setRenderBounds(min, ny ? 0 : min, min, max, py ? 1 : max, max);
+			renderer.renderStandardBlock(block, x, y, z);
+		}
+		
+		if(nz || pz) {
+			renderer.setRenderBounds(min, min, nz ? 0 : min, max, max, pz ? 1 : max);
+			renderer.renderStandardBlock(block, x, y, z);
+		}
+		
 		return true;
 	}
 	
