@@ -32,6 +32,7 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.ChunkDataEvent;
@@ -372,6 +373,16 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 			int x = r.nextInt(16) + (chunkX << 4), y = r.nextInt(128), z = r.nextInt(16) + (chunkZ << 4);
 			//System.out.println(x+" "+y+" "+z);
 			chickenOreGen.generate(world, r, x, y, z);
+		}
+	}
+	
+	@ForgeSubscribe
+	public void makeChickensRideStuff(LivingSpawnEvent.SpecialSpawn evt) {
+		if(evt.world.rand.nextInt(8) == 0) {
+			EntityChicken ec = new EntityChicken(evt.world);
+			ec.setPosition(evt.entityLiving.posX, evt.entityLiving.posY, evt.entityLiving.posZ);
+			evt.world.spawnEntityInWorld(ec);
+			ec.mountEntity(evt.entityLiving);
 		}
 	}
 }
