@@ -13,7 +13,12 @@ public class ItemChickenWing extends Item {
 		super(id);
 		
 		setCreativeTab(CreativeTabs.tabTools);
-		setTextureName("immibis_modjam3:chickenwing");
+		
+		if(!Modjam3Mod.MODJAM)
+			setTextureName("immibis_modjam3:chickenwing"); // texture not made by me
+		else
+			setTextureName("immibis_modjam3:chickenwing2");
+		
 		setUnlocalizedName("immibis_modjam3.chickenwing");
 		setMaxStackSize(1);
 		setMaxDamage(3000);
