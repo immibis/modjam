@@ -17,6 +17,7 @@ import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
@@ -76,6 +77,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 	public static Item itemChickaxe;
 	public static Item itemChickenNugget;
 	public static ItemChickenWing itemChickenWing;
+	public static Item[] itemRecords;
 	
 	public static EnumToolMaterial toolMaterialChicken = EnumHelper.addToolMaterial("IMMIBIS_MJ3", 1, 500, 16.0f, 0.0f, 35);
 	
@@ -96,6 +98,9 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 	private int itemid_chickaxe = -1;
 	private int itemid_cnugget = -1;
 	private int itemid_cwing = -1;
+	private int itemid_record1 = -1;
+	private int itemid_record2 = -1;
+	private int itemid_record3 = -1;
 	
 	private int preinit_block(String name) {
 		if(cfg.getCategory(Configuration.CATEGORY_BLOCK).keySet().contains(name))
@@ -129,6 +134,9 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		itemid_chickaxe = preinit_item("chickaxe");
 		itemid_cnugget = preinit_item("chickenNugget");
 		itemid_cwing = preinit_item("chickenWing");
+		itemid_record1 = preinit_item("record1");
+		itemid_record2 = preinit_item("record2");
+		itemid_record3 = preinit_item("record3");
 	}
 	
 	@EventHandler
@@ -159,6 +167,12 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 			itemid_cnugget = cfg.getItem("chickenNugget", 23456).getInt(23456);
 		if(itemid_cwing == -1)
 			itemid_cwing = cfg.getItem("chickenWing", 23456).getInt(23456);
+		if(itemid_record1 == -1)
+			itemid_record1 = cfg.getItem("record1", 23456).getInt(23456);
+		if(itemid_record2 == -1)
+			itemid_record2 = cfg.getItem("record2", 23456).getInt(23456);
+		if(itemid_record3 == -1)
+			itemid_record3 = cfg.getItem("record3", 23456).getInt(23456);
 			
 		if(cfg.hasChanged())
 			cfg.save();
@@ -175,6 +189,9 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		itemChickenStaff = new ItemChickenStaff(itemid_chickenstaff);
 		itemChickaxe = new ItemChickaxe(itemid_chickaxe);
 		itemChickenWing = new ItemChickenWing(itemid_cwing);
+		itemRecords = new Item[] {
+			new ItemRecord(itemid_record1, "immibis_modjam3:oli_chang_chicken_techno") {}.setUnlocalizedName("record").setTextureName("immibis_modjam3:record1")
+		};
 		
 		itemChickenCore = new Item(itemid_chickencore).setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickencore").setUnlocalizedName("immibis_modjam3.chickencore");
 		itemChickenIngot = new Item(itemid_chickeningot).setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickeningot").setUnlocalizedName("immibis_modjam3.chickeningot");
@@ -194,6 +211,9 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		GameRegistry.registerItem(itemChickenStaff, "chickenstaff");
 		GameRegistry.registerItem(itemChickaxe, "chickaxe");
 		GameRegistry.registerItem(itemChickenWing, "chickenWing");
+		GameRegistry.registerItem(itemRecords[0], "record1");
+		//GameRegistry.registerItem(itemRecords[1], "record2");
+		//GameRegistry.registerItem(itemRecords[2], "record3");
 		GameRegistry.registerBlock(blockIChest, "ichest");
 		GameRegistry.registerBlock(blockChickenOre, "chickenore");
 		GameRegistry.registerBlock(blockChickenBlock, "chickenblock");
