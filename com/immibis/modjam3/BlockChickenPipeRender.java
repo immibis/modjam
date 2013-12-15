@@ -60,35 +60,47 @@ public class BlockChickenPipeRender implements ISimpleBlockRenderingHandler {
 		Tessellator t = Tessellator.instance;
 		Icon i = rb.hasOverrideBlockTexture() ? rb.overrideBlockTexture : Modjam3Mod.blockChickenPipe.getIcon(0, 0);
 		
-		t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMaxY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMinX*16), i.getInterpolatedV(rb.renderMaxY*16));
-		t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMaxY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMaxX*16), i.getInterpolatedV(rb.renderMaxY*16));
-		t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMinY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMaxX*16), i.getInterpolatedV(rb.renderMinY*16));
-		t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMinY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMinX*16), i.getInterpolatedV(rb.renderMinY*16));
+		if(rb.renderMinZ > 0) {
+			t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMaxY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMinX*16), i.getInterpolatedV(rb.renderMaxY*16));
+			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMaxY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMaxX*16), i.getInterpolatedV(rb.renderMaxY*16));
+			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMinY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMaxX*16), i.getInterpolatedV(rb.renderMinY*16));
+			t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMinY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMinX*16), i.getInterpolatedV(rb.renderMinY*16));
+		}
 		
-		t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMinY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMinX*16), i.getInterpolatedV(rb.renderMinY*16));
-		t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMinY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMaxX*16), i.getInterpolatedV(rb.renderMinY*16));
-		t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMaxY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMaxX*16), i.getInterpolatedV(rb.renderMaxY*16));
-		t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMaxY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMinX*16), i.getInterpolatedV(rb.renderMaxY*16));
+		if(rb.renderMaxZ < 1) {
+			t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMinY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMinX*16), i.getInterpolatedV(rb.renderMinY*16));
+			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMinY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMaxX*16), i.getInterpolatedV(rb.renderMinY*16));
+			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMaxY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMaxX*16), i.getInterpolatedV(rb.renderMaxY*16));
+			t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMaxY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMinX*16), i.getInterpolatedV(rb.renderMaxY*16));
+		}
 		
-		t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMinY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMinX*16), i.getInterpolatedV(rb.renderMinZ*16));
-		t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMinY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMaxX*16), i.getInterpolatedV(rb.renderMinZ*16));
-		t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMinY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMaxX*16), i.getInterpolatedV(rb.renderMaxZ*16));
-		t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMinY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMinX*16), i.getInterpolatedV(rb.renderMaxZ*16));
+		if(rb.renderMinY > 0) {
+			t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMinY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMinX*16), i.getInterpolatedV(rb.renderMinZ*16));
+			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMinY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMaxX*16), i.getInterpolatedV(rb.renderMinZ*16));
+			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMinY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMaxX*16), i.getInterpolatedV(rb.renderMaxZ*16));
+			t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMinY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMinX*16), i.getInterpolatedV(rb.renderMaxZ*16));
+		}
 		
-		t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMaxY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMinX*16), i.getInterpolatedV(rb.renderMaxZ*16));
-		t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMaxY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMaxX*16), i.getInterpolatedV(rb.renderMaxZ*16));
-		t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMaxY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMaxX*16), i.getInterpolatedV(rb.renderMinZ*16));
-		t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMaxY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMinX*16), i.getInterpolatedV(rb.renderMinZ*16));
+		if(rb.renderMaxY < 1) {
+			t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMaxY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMinX*16), i.getInterpolatedV(rb.renderMaxZ*16));
+			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMaxY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMaxX*16), i.getInterpolatedV(rb.renderMaxZ*16));
+			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMaxY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMaxX*16), i.getInterpolatedV(rb.renderMinZ*16));
+			t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMaxY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMinX*16), i.getInterpolatedV(rb.renderMinZ*16));
+		}
 		
-		t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMinY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMinZ*16), i.getInterpolatedV(rb.renderMinY*16));
-		t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMinY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMaxZ*16), i.getInterpolatedV(rb.renderMinY*16));
-		t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMaxY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMaxZ*16), i.getInterpolatedV(rb.renderMaxY*16));
-		t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMaxY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMinZ*16), i.getInterpolatedV(rb.renderMaxY*16));
+		if(rb.renderMinX > 0) {
+			t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMinY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMinZ*16), i.getInterpolatedV(rb.renderMinY*16));
+			t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMinY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMaxZ*16), i.getInterpolatedV(rb.renderMinY*16));
+			t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMaxY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMaxZ*16), i.getInterpolatedV(rb.renderMaxY*16));
+			t.addVertexWithUV(x+rb.renderMinX, y+rb.renderMaxY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMinZ*16), i.getInterpolatedV(rb.renderMaxY*16));
+		}
 		
-		t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMaxY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMinZ*16), i.getInterpolatedV(rb.renderMaxY*16));
-		t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMaxY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMaxZ*16), i.getInterpolatedV(rb.renderMaxY*16));
-		t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMinY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMaxZ*16), i.getInterpolatedV(rb.renderMinY*16));
-		t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMinY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMinZ*16), i.getInterpolatedV(rb.renderMinY*16));
+		if(rb.renderMaxX < 1) {
+			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMaxY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMinZ*16), i.getInterpolatedV(rb.renderMaxY*16));
+			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMaxY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMaxZ*16), i.getInterpolatedV(rb.renderMaxY*16));
+			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMinY, z+rb.renderMaxZ, i.getInterpolatedU(rb.renderMaxZ*16), i.getInterpolatedV(rb.renderMinY*16));
+			t.addVertexWithUV(x+rb.renderMaxX, y+rb.renderMinY, z+rb.renderMinZ, i.getInterpolatedU(rb.renderMinZ*16), i.getInterpolatedV(rb.renderMinY*16));
+		}
 		
 	}
 
