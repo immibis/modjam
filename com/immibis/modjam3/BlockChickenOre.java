@@ -49,10 +49,15 @@ public class BlockChickenOre extends Block {
 			return iSide;
 	}
 	
+	private int getHashedFakeMeta(int x, int y, int z) {
+		return ((7964532*x + 234356*y + 23431*z) >> 5 & 3) + 2;
+	}
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getBlockTexture(IBlockAccess par1iBlockAccess, int par2, int par3, int par4, int par5) {
-		return par1iBlockAccess.getBlockMetadata(par2, par3, par4) == par5 ? blockIcon : iSide;
+		int meta = par1iBlockAccess.getBlockMetadata(par2, par3, par4);
+		return (meta != 0 ? meta : getHashedFakeMeta(par2, par3, par4)) == par5 ? blockIcon : iSide;
 	}
 	
 	@Override

@@ -1,5 +1,11 @@
 package com.immibis.modjam3;
 
+import java.util.EnumSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.creativetab.CreativeTabs;
@@ -13,7 +19,11 @@ import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.EnumHelper;
 import net.minecraftforge.common.MinecraftForge;
@@ -23,9 +33,14 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.world.ChunkDataEvent;
+import net.minecraftforge.event.world.ChunkEvent;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.ICraftingHandler;
+import cpw.mods.fml.common.ITickHandler;
+import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -36,10 +51,12 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.common.registry.TickRegistry;
 
 @Mod(modid="ChickenBones", name="The Chicken Bones Mod", version="1.0")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
-public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
+public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, IWorldGenerator {
 	
 	@Instance("ChickenBones")
 	public static Modjam3Mod instance;
@@ -187,10 +204,13 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 		
 		GameRegistry.registerCraftingHandler(this);
 		NetworkRegistry.instance().registerGuiHandler(this, this);
+		TickRegistry.registerTickHandler(this, Side.SERVER);
+		MinecraftForge.EVENT_BUS.register(this);
+		GameRegistry.registerWorldGenerator(this);
+		
+		chickenOreGen = new WorldGenMinable(blockChickenOre.blockID, 8);
 		
 		proxy.init();
-		
-		MinecraftForge.EVENT_BUS.register(this);
 	}
 	
 	@ForgeSubscribe
@@ -245,6 +265,53 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler {
 			ch.setPosition(evt.entity.posX, evt.entity.posY, evt.entity.posZ);
 			evt.entity.worldObj.spawnEntityInWorld(ch);
 			evt.entity.worldObj.playSoundAtEntity(evt.entity, "immibis_modjam3:ichest.close", 0.5F, 1.0f);
+		}
+	}
+	
+	private Queue<Chunk> toGenerate = new LinkedList<Chunk>();
+	
+	private WorldGenMinable chickenOreGen;
+	@ForgeSubscribe
+	public void onChunkLoad(ChunkDataEvent.Load evt) {
+		if(!evt.getData().getBoolean("ImmibisMJ3Gen")) {
+			toGenerate.add(evt.getChunk());
+		}
+	}
+	
+	@ForgeSubscribe
+	public void onChunkSave(ChunkDataEvent.Save evt) {
+		evt.getData().setBoolean("ImmibisMJ3Gen", true);
+	}
+	
+	@Override
+	public String getLabel() {
+		return "Chicken Bones";
+	}
+	
+	@Override
+	public void tickEnd(EnumSet<TickType> type, Object... tickData) {
+		Chunk c;
+		while((c = toGenerate.poll()) != null) {
+			Random r = new Random(c.worldObj.getSeed() ^ 0xC1C2C3C4C5C6C7C8L ^ ((long)c.xPosition << 16) ^ (long)c.zPosition);
+			generate(r, c.xPosition, c.zPosition, c.worldObj, c.worldObj.getChunkProvider(), c.worldObj.getChunkProvider());
+		}
+	}
+	
+	@Override
+	public EnumSet<TickType> ticks() {
+		return EnumSet.of(TickType.SERVER);
+	}
+	
+	@Override
+	public void tickStart(EnumSet<TickType> type, Object... tickData) {
+	}
+	
+	@Override
+	public void generate(Random r, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
+		for(int k = 0; k < 6; k++) {
+			int x = r.nextInt(16) + (chunkX << 4), y = r.nextInt(128), z = r.nextInt(16) + (chunkZ << 4);
+			//System.out.println(x+" "+y+" "+z);
+			chickenOreGen.generate(world, r, x, y, z);
 		}
 	}
 }
