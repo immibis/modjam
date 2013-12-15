@@ -10,5 +10,6 @@ public class ItemChickenBeak extends Item {
 		setUnlocalizedName("immibis_modjam3.chickenbeak");
 		setTextureName("immibis_modjam3:chickenbeak");
 		setCreativeTab(CreativeTabs.tabTools);
+		setMaxStackSize(1);
 	}
 }
