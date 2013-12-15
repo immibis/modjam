@@ -58,32 +58,32 @@ public class BlockChickenPipeRender implements ISimpleBlockRenderingHandler {
 		
 		if(nx) {
 			renderer.setRenderBounds(0, min, min, min, max, max);
-			renderStandardBlock(renderer, block, x, y, z, false, false, true, true, true, true, BlockChickenPipe.icon, BlockChickenPipe.icon);
+			renderStandardBlock(renderer, block, x, y, z, false, false, true, true, true, true, BlockChickenPipe.iconCH, BlockChickenPipe.iconCH);
 		}
 		
 		if(px) {
 			renderer.setRenderBounds(max, min, min, 1, max, max);
-			renderStandardBlock(renderer, block, x, y, z, false, false, true, true, true, true, BlockChickenPipe.icon, BlockChickenPipe.icon);
+			renderStandardBlock(renderer, block, x, y, z, false, false, true, true, true, true, BlockChickenPipe.iconCH, BlockChickenPipe.iconCH);
 		}
 		
 		if(ny) {
 			renderer.setRenderBounds(min, 0, min, max, min, max);
-			renderStandardBlock(renderer, block, x, y, z, true, true, false, false, true, true, BlockChickenPipe.icon, BlockChickenPipe.icon);
+			renderStandardBlock(renderer, block, x, y, z, true, true, false, false, true, true, BlockChickenPipe.iconCV, null);
 		}
 		
 		if(py) {
 			renderer.setRenderBounds(min, max, min, max, 1, max);
-			renderStandardBlock(renderer, block, x, y, z, true, true, false, false, true, true, BlockChickenPipe.icon, BlockChickenPipe.icon);
+			renderStandardBlock(renderer, block, x, y, z, true, true, false, false, true, true, BlockChickenPipe.iconCV, null);
 		}
 		
 		if(nz) {
 			renderer.setRenderBounds(min, min, 0, max, max, min);
-			renderStandardBlock(renderer, block, x, y, z, true, true, true, true, false, false, BlockChickenPipe.icon, BlockChickenPipe.icon);
+			renderStandardBlock(renderer, block, x, y, z, true, true, true, true, false, false, BlockChickenPipe.iconCH, BlockChickenPipe.iconCV);
 		}
 		
 		if(pz) {
 			renderer.setRenderBounds(min, min, max, max, max, 1);
-			renderStandardBlock(renderer, block, x, y, z, true, true, true, true, false, false, BlockChickenPipe.icon, BlockChickenPipe.icon);
+			renderStandardBlock(renderer, block, x, y, z, true, true, true, true, false, false, BlockChickenPipe.iconCH, BlockChickenPipe.iconCV);
 		}
 		
 		return true;
