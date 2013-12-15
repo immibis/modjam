@@ -17,6 +17,7 @@ import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -69,6 +70,8 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 	/** Disables some things that are not allowed for modjam */
 	public static final boolean MODJAM = true;
 	
+	public static final boolean CHICKENS_RIDE_STUFF = false;
+	
 	public static BlockIChest blockIChest;
 	public static BlockChickenOre blockChickenOre;
 	public static Block blockChickenBlock;
@@ -80,10 +83,11 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 	public static Item itemChickenIngot;
 	public static ItemChickenStaff itemChickenStaff;
 	public static Item itemChickaxe;
-	public static Item itemChickenNugget;
+	public static ItemFood itemChickenNugget;
 	public static ItemChickenWing itemChickenWing;
 	public static Item[] itemRecords;
 	public static Item itemWRCBE;
+	public static Item itemChickenBeak;
 	
 	public static EnumToolMaterial toolMaterialChicken = EnumHelper.addToolMaterial("IMMIBIS_MJ3", 1, 500, 16.0f, 0.0f, 35);
 	
@@ -108,6 +112,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 	private int itemid_record2 = -1;
 	private int itemid_record3 = -1;
 	private int itemid_wrcbe = -1;
+	private int itemid_chomper = -1;
 	
 	private int preinit_block(String name) {
 		if(cfg.getCategory(Configuration.CATEGORY_BLOCK).keySet().contains(name))
@@ -145,6 +150,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		itemid_record2 = preinit_item("record2");
 		itemid_record3 = preinit_item("record3");
 		itemid_wrcbe = preinit_item("wrcbe");
+		itemid_chomper = preinit_item("chomper");
 	}
 	
 	@EventHandler
@@ -183,6 +189,8 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 			itemid_record3 = cfg.getItem("record3", 23456).getInt(23456);
 		if(itemid_wrcbe == -1)
 			itemid_wrcbe = cfg.getItem("wrcbe", 23456).getInt(23456);
+		if(itemid_chomper == -1)
+			itemid_chomper = cfg.getItem("chomper", 23456).getInt(23456);
 			
 		if(cfg.hasChanged())
 			cfg.save();
@@ -200,6 +208,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		itemChickaxe = new ItemChickaxe(itemid_chickaxe);
 		itemChickenWing = new ItemChickenWing(itemid_cwing);
 		itemWRCBE = new ItemWirelessRedstone(itemid_wrcbe);
+		itemChickenBeak = new ItemChickenBeak(itemid_chomper);
 		
 		if(!MODJAM) {
 			itemRecords = new Item[] {
@@ -224,7 +233,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		
 		itemChickenCore = new Item(itemid_chickencore).setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickencore").setUnlocalizedName("immibis_modjam3.chickencore");
 		itemChickenIngot = new Item(itemid_chickeningot).setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickeningot").setUnlocalizedName("immibis_modjam3.chickeningot");
-		itemChickenNugget = new Item(itemid_cnugget).setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickennugget").setUnlocalizedName("immibis_modjam3.chickennugget");
+		itemChickenNugget = (ItemFood)new ItemFood(itemid_cnugget, 1, 0, false).setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickennugget").setUnlocalizedName("immibis_modjam3.chickennugget");
 		
 		itemChickenBone = new Item(itemid_chickenBone);
 		itemChickenBone.setCreativeTab(CreativeTabs.tabMaterials);
@@ -278,6 +287,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		GameRegistry.registerCraftingHandler(this);
 		NetworkRegistry.instance().registerGuiHandler(this, this);
 		TickRegistry.registerTickHandler(this, Side.SERVER);
+		TickRegistry.registerTickHandler(new PlayerTickHandler(), Side.SERVER);
 		MinecraftForge.EVENT_BUS.register(this);
 		GameRegistry.registerWorldGenerator(this);
 		
@@ -394,7 +404,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 	
 	@ForgeSubscribe
 	public void makeChickensRideStuff(LivingSpawnEvent.SpecialSpawn evt) {
-		if(evt.world.rand.nextInt(8) == 0) {
+		if(CHICKENS_RIDE_STUFF && evt.world.rand.nextInt(8) == 0) {
 			EntityChicken ec = new EntityChicken(evt.world);
 			ec.setPosition(evt.entityLiving.posX, evt.entityLiving.posY, evt.entityLiving.posZ);
 			evt.world.spawnEntityInWorld(ec);
