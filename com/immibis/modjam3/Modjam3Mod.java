@@ -198,6 +198,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		GameRegistry.addRecipe(new ItemStack(itemChickenIngot), "###", "###", "###", '#', itemChickenNugget);
 		GameRegistry.addRecipe(new ItemStack(itemChickenIngot, 9), "#", '#', blockChickenBlock);
 		GameRegistry.addRecipe(new ItemStack(blockChickenBlock), "###", "###", "###", '#', itemChickenIngot);
+		GameRegistry.addShapelessRecipe(new ItemStack(blockChickenOre), itemChicken, Block.stone);
 		FurnaceRecipes.smelting().addSmelting(itemChicken.itemID, new ItemStack(itemChickenIngot), 1.5f);
 		
 		EntityRegistry.registerModEntity(EntityAngryChicken.class, "immibis_modjam3.angryChicken", 0, this, 100, 5, true);
