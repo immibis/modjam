@@ -1,6 +1,7 @@
 package com.immibis.modjam3;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.MinecraftForgeClient;
 
@@ -9,6 +10,9 @@ public class ClientProxy extends Proxy {
 		MinecraftForgeClient.registerItemRenderer(Modjam3Mod.blockIChest.blockID, new BlockIChestRenderItem());
 		MinecraftForgeClient.registerItemRenderer(Modjam3Mod.itemChicken.itemID, new ItemChickenRender());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityIChest.class, new TileEntityIChestRenderer());
+		
+		BlockChickenPipe.model = RenderingRegistry.getNextAvailableRenderId();
+		RenderingRegistry.registerBlockHandler(BlockChickenPipe.model, new BlockChickenPipeRender());
 		
 		Minecraft.getMinecraft().sndManager.soundPoolSounds.addSound("immibis_modjam3:ichest/doppler.ogg");
 		Minecraft.getMinecraft().sndManager.soundPoolSounds.addSound("immibis_modjam3:ichest/open.ogg");

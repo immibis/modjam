@@ -12,17 +12,28 @@ public class BlockChickenPipeRender implements ISimpleBlockRenderingHandler {
 	}
 	
 	@Override
-	public void renderInventoryBlock(Block block, int metadata, int modelID,
-			RenderBlocks renderer) {
+	public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
 		// TODO Auto-generated method stub
 		
 	}
 	
+	private static final double min = 6/16f, max = 10/16f;
+	
 	@Override
-	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z,
-			Block block, int modelId, RenderBlocks renderer) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+		boolean nx = BlockChickenPipe.connects(world, x-1, y, z);
+		boolean px = BlockChickenPipe.connects(world, x+1, y, z);
+		boolean ny = BlockChickenPipe.connects(world, x, y-1, z);
+		boolean py = BlockChickenPipe.connects(world, x, y+1, z);
+		boolean nz = BlockChickenPipe.connects(world, x, y, z-1);
+		boolean pz = BlockChickenPipe.connects(world, x, y, z+1);
+		
+		if(!nx && !px && !ny && !py && !nz && !pz) {
+			renderer.setRenderBounds(min, min, min, max, max, max);
+			renderer.renderStandardBlock(block, x, y, z);
+		}
+		
+		return true;
 	}
 	
 	@Override
