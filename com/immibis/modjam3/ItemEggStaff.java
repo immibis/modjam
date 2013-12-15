@@ -16,6 +16,7 @@ public class ItemEggStaff extends Item {
 		setCreativeTab(CreativeTabs.tabMaterials);
 		setTextureName("immibis_modjam3:eggstaff");
 		setUnlocalizedName("immibis_modjam3.eggstaff");
+		setMaxStackSize(1);
 	}
 	
 	@Override

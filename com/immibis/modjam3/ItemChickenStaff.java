@@ -15,6 +15,7 @@ public class ItemChickenStaff extends Item {
 		setUnlocalizedName("immibis_modjam3.chickenstaff");
 		setTextureName("immibis_modjam3:chickenstaff");
 		setCreativeTab(CreativeTabs.tabTools);
+		setMaxStackSize(1);
 	}
 	
 	@Override

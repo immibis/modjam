@@ -74,6 +74,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 	public static ItemChickenStaff itemChickenStaff;
 	public static Item itemChickaxe;
 	public static Item itemChickenNugget;
+	public static ItemChickenWing itemChickenWing;
 	
 	public static EnumToolMaterial toolMaterialChicken = EnumHelper.addToolMaterial("IMMIBIS_MJ3", 1, 500, 16.0f, 0.0f, 35);
 	
@@ -92,6 +93,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 	private int itemid_chickeningot = -1;
 	private int itemid_chickaxe = -1;
 	private int itemid_cnugget = -1;
+	private int itemid_cwing = -1;
 	
 	private int preinit_block(String name) {
 		if(cfg.getCategory(Configuration.CATEGORY_BLOCK).keySet().contains(name))
@@ -123,6 +125,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		itemid_chickeningot = preinit_item("chickeningot");
 		itemid_chickaxe = preinit_item("chickaxe");
 		itemid_cnugget = preinit_item("chickenNugget");
+		itemid_cwing = preinit_item("chickenWing");
 	}
 	
 	@EventHandler
@@ -149,6 +152,8 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 			itemid_chickaxe = cfg.getItem("chickaxe", 23456).getInt(23456);
 		if(itemid_cnugget == -1)
 			itemid_cnugget = cfg.getItem("chickenNugget", 23456).getInt(23456);
+		if(itemid_cwing == -1)
+			itemid_cwing = cfg.getItem("chickenWing", 23456).getInt(23456);
 			
 		if(cfg.hasChanged())
 			cfg.save();
@@ -163,6 +168,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		itemChicken = new ItemChicken(itemid_chicken);
 		itemChickenStaff = new ItemChickenStaff(itemid_chickenstaff);
 		itemChickaxe = new ItemChickaxe(itemid_chickaxe);
+		itemChickenWing = new ItemChickenWing(itemid_cwing);
 		
 		itemChickenCore = new Item(itemid_chickencore).setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickencore").setUnlocalizedName("immibis_modjam3.chickencore");
 		itemChickenIngot = new Item(itemid_chickeningot).setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickeningot").setUnlocalizedName("immibis_modjam3.chickeningot");
@@ -181,6 +187,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		GameRegistry.registerItem(itemChickenNugget, "chickennugget");
 		GameRegistry.registerItem(itemChickenStaff, "chickenstaff");
 		GameRegistry.registerItem(itemChickaxe, "chickaxe");
+		GameRegistry.registerItem(itemChickenWing, "chickenWing");
 		GameRegistry.registerBlock(blockIChest, "ichest");
 		GameRegistry.registerBlock(blockChickenOre, "chickenore");
 		GameRegistry.registerBlock(blockChickenBlock, "chickenblock");
