@@ -207,6 +207,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		blockChickenOre = new BlockChickenOre(blockid_chore);
 		blockChickenBlock = new BlockChickenBlock(blockid_cblock);
 		blockChickenBlockBlock = new BlockChickenBlock(blockid_cblockblock).setUnlocalizedName("immibis_modjam3.chickenblockblock").setTextureName("immibis_modjam3:compressed_chicken_block");
+		blockChickenPipe = new BlockChickenPipe(blockid_chickenpipe);
 		itemEggStaff = new ItemEggStaff(itemid_eggstaff);
 		itemChicken = new ItemChicken(itemid_chicken);
 		itemChickenStaff = new ItemChickenStaff(itemid_chickenstaff);
@@ -265,6 +266,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		GameRegistry.registerBlock(blockChickenOre, "chickenore");
 		GameRegistry.registerBlock(blockChickenBlock, "chickenblock");
 		GameRegistry.registerBlock(blockChickenBlockBlock, "chickenblockblock");
+		GameRegistry.registerBlock(blockChickenPipe, "chickenpipe");
 		
 		GameRegistry.registerTileEntity(TileEntityIChest.class, "immibis_modjam3.ichest");
 		
