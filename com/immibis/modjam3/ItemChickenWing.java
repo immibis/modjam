@@ -15,6 +15,7 @@ public class ItemChickenWing extends Item {
 		setTextureName("immibis_modjam3:chickenwing");
 		setUnlocalizedName("immibis_modjam3.chickenwing");
 		setMaxStackSize(1);
+		setMaxDamage(1500);
 	}
 	
 	@Override
@@ -30,6 +31,8 @@ public class ItemChickenWing extends Item {
 		par3EntityPlayer.motionX = clampSpeed(par3EntityPlayer.motionX, vec.xCoord);
 		par3EntityPlayer.motionY = clampSpeed(par3EntityPlayer.motionY, vec.yCoord);
 		par3EntityPlayer.motionZ = clampSpeed(par3EntityPlayer.motionZ, vec.zCoord);
+		
+		par1ItemStack.damageItem(1, par3EntityPlayer);
 		
 		return par1ItemStack;
 	}
