@@ -15,7 +15,7 @@ public class ItemChickenWing extends Item {
 		setCreativeTab(CreativeTabs.tabTools);
 		
 		if(!Modjam3Mod.MODJAM)
-			setTextureName("immibis_modjam3:chickenwing"); // texture not made by me
+			setTextureName("immibis_modjam3:chickenwing"); // texture by minerdave, so not acceptable for modjam
 		else
 			setTextureName("immibis_modjam3:chickenwing2");
 		
