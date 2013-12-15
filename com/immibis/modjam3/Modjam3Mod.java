@@ -55,7 +55,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.common.registry.TickRegistry;
 
-@Mod(modid="ChickenBones", name="The Chicken Bones Mod", version="1.0")
+
+@Mod(modid="ChickenBones", name="The Chicken Bones Mod: You can pick up chicks!", version="1.0")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
 public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, IWorldGenerator {
 	
@@ -193,13 +194,18 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		itemRecords = new Item[] {
 			new ItemRecord(itemid_record1, "immibis_modjam3:oli_chang_chicken_techno") {
 				public String getRecordTitle() {return "Oli Chang - Chicken Techno";}
+				public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+					super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
+					if(par1ItemStack.getItemDamage() == 3)
+						par3List.add("Crafts a random record.");
+				}
 			}.setUnlocalizedName("record").setTextureName("immibis_modjam3:record1"),
 			
 			new ItemRecord(itemid_record2, "immibis_modjam3:dj_bewan_chicken_song_full") {
 				public String getRecordTitle() {return "DJ Bewan - Chicken Song";}
 			}.setUnlocalizedName("record").setTextureName("immibis_modjam3:record2"),
 			
-			new ItemRecord(itemid_record2, "immibis_modjam3:dj_bewan_chicken_song_short") {
+			new ItemRecord(itemid_record3, "immibis_modjam3:dj_bewan_chicken_song_short") {
 				public String getRecordTitle() {return "DJ Bewan - Chicken Song (Short version)";}
 			}.setUnlocalizedName("record").setTextureName("immibis_modjam3:record3"),
 		};
@@ -247,6 +253,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		GameRegistry.addRecipe(new ItemStack(blockChickenBlockBlock), "###", "###", "###", '#', blockChickenBlock);
 		GameRegistry.addShapelessRecipe(new ItemStack(blockChickenOre), itemChicken, Block.stone);
 		GameRegistry.addRecipe(new ItemStack(itemChickenWing), ".##", ".##", "/..", '.', itemChickenNugget, '#', blockChickenBlockBlock, '/', itemChickenBone);
+		GameRegistry.addRecipe(new ItemStack(itemRecords[0], 1, 3), "###", "#O#", "###", 'O', itemChickenCore, '#', Block.music);
 		FurnaceRecipes.smelting().addSmelting(itemChicken.itemID, new ItemStack(itemChickenIngot), 1.5f);
 		
 		EntityRegistry.registerModEntity(EntityAngryChicken.class, "immibis_modjam3.angryChicken", 0, this, 100, 5, true);
@@ -299,6 +306,10 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 	public void onCrafting(EntityPlayer player, ItemStack item, IInventory craftMatrix) {
 		if(item.itemID == blockIChest.blockID && !player.worldObj.isRemote)
 			player.worldObj.playSoundAtEntity(player, "immibis_modjam3:ichest.doppler", 1, 1);
+		if(item.itemID == itemRecords[0].itemID && !player.worldObj.isRemote) {
+			item.itemID = itemRecords[player.worldObj.rand.nextInt(itemRecords.length)].itemID;
+			item.setItemDamage(0);
+		}
 	}
 	
 	@Override
