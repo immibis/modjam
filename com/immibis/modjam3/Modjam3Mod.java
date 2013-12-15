@@ -189,8 +189,19 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		itemChickenStaff = new ItemChickenStaff(itemid_chickenstaff);
 		itemChickaxe = new ItemChickaxe(itemid_chickaxe);
 		itemChickenWing = new ItemChickenWing(itemid_cwing);
+		
 		itemRecords = new Item[] {
-			new ItemRecord(itemid_record1, "immibis_modjam3:oli_chang_chicken_techno") {}.setUnlocalizedName("record").setTextureName("immibis_modjam3:record1")
+			new ItemRecord(itemid_record1, "immibis_modjam3:oli_chang_chicken_techno") {
+				public String getRecordTitle() {return "Oli Chang - Chicken Techno";}
+			}.setUnlocalizedName("record").setTextureName("immibis_modjam3:record1"),
+			
+			new ItemRecord(itemid_record2, "immibis_modjam3:dj_bewan_chicken_song_full") {
+				public String getRecordTitle() {return "DJ Bewan - Chicken Song";}
+			}.setUnlocalizedName("record").setTextureName("immibis_modjam3:record2"),
+			
+			new ItemRecord(itemid_record2, "immibis_modjam3:dj_bewan_chicken_song_short") {
+				public String getRecordTitle() {return "DJ Bewan - Chicken Song (Short version)";}
+			}.setUnlocalizedName("record").setTextureName("immibis_modjam3:record3"),
 		};
 		
 		itemChickenCore = new Item(itemid_chickencore).setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickencore").setUnlocalizedName("immibis_modjam3.chickencore");
@@ -212,8 +223,8 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		GameRegistry.registerItem(itemChickaxe, "chickaxe");
 		GameRegistry.registerItem(itemChickenWing, "chickenWing");
 		GameRegistry.registerItem(itemRecords[0], "record1");
-		//GameRegistry.registerItem(itemRecords[1], "record2");
-		//GameRegistry.registerItem(itemRecords[2], "record3");
+		GameRegistry.registerItem(itemRecords[1], "record2");
+		GameRegistry.registerItem(itemRecords[2], "record3");
 		GameRegistry.registerBlock(blockIChest, "ichest");
 		GameRegistry.registerBlock(blockChickenOre, "chickenore");
 		GameRegistry.registerBlock(blockChickenBlock, "chickenblock");
