@@ -31,7 +31,6 @@ public class BlockChickenPipeRender implements ISimpleBlockRenderingHandler {
 		boolean pz = BlockChickenPipe.connects(world, x, y, z+1);
 		
 		Tessellator.instance.setBrightness(world.getLightBrightnessForSkyBlocks(x, y, z, 0));
-		Tessellator.instance.setColorOpaque(255, 255, 255);
 		
 		if(nx && px && !ny && !py && !nz && !pz) {
 			renderer.setRenderBounds(0, min, min, 1, max, max);
