@@ -3,9 +3,11 @@ package com.immibis.modjam3;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -34,6 +36,15 @@ public class BlockChickenPipe extends Block {
 	@Override
 	public int getRenderType() {
 		return model;
+	}
+	
+	public static Icon icon, iconCV, iconCH;
+	
+	public void registerIcons(IconRegister par1IconRegister) {
+		super.registerIcons(par1IconRegister);
+		icon = blockIcon;
+		iconCH = par1IconRegister.registerIcon("immibis_modjam3:chicken_pipe_ch");
+		iconCV = par1IconRegister.registerIcon("immibis_modjam3:chicken_pipe_cv");
 	}
 
 	public static boolean connects(IBlockAccess w, int x, int y, int z) {
