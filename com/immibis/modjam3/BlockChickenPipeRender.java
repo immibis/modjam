@@ -19,7 +19,7 @@ public class BlockChickenPipeRender implements ISimpleBlockRenderingHandler {
 		
 	}
 	
-	private static final double min = 5.5/16f, max = 10.5/16f;
+	private static final double min = 4/16f, max = 12/16f;
 	
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
