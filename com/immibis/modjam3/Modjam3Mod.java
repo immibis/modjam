@@ -255,6 +255,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 			GameRegistry.registerItem(itemRecords[2], "record3");
 		}
 		GameRegistry.registerItem(itemWRCBE, "wrcbe");
+		GameRegistry.registerItem(itemChickenBeak, "chickenbeak");
 		GameRegistry.registerBlock(blockIChest, "ichest");
 		GameRegistry.registerBlock(blockChickenOre, "chickenore");
 		GameRegistry.registerBlock(blockChickenBlock, "chickenblock");
