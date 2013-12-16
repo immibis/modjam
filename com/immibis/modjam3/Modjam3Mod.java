@@ -332,9 +332,9 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 			if(evt.entity.worldObj.rand.nextInt(3) == 0)
 				evt.drops.add(new EntityItem(evt.entity.worldObj, evt.entity.posX, evt.entity.posY, evt.entity.posZ, new ItemStack(itemChickenBone, 1)));
 			
-			Entity source = evt.source.getEntity();
+			Entity source = evt.source.getSourceOfDamage();
 			
-			if(source instanceof EntityPlayer && evt.entity.worldObj.rand.nextInt(7) == 0)
+			if(source instanceof EntityPlayer && evt.entity.worldObj.rand.nextInt(7) == 0 && !evt.source.getDamageType().equals("explosion.player"))
 				for(int k = 0; k < 30; k++)
 					evt.entity.worldObj.spawnEntityInWorld(new EntityAngryChicken(evt.entity.worldObj, (EntityPlayer)source));
 		}
