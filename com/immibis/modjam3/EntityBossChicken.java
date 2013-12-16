@@ -106,9 +106,9 @@ public class EntityBossChicken extends EntityChicken implements IBossDisplayData
 	private boolean recursive = false;
 	@Override
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
-		if(!(par1DamageSource.getSourceOfDamage() instanceof EntityPlayerMP)) {
-			if(!isDead)
-				explodeViolently(); // breaks infinite loop
+		if(!worldObj.isRemote && !(par1DamageSource.getSourceOfDamage() instanceof EntityPlayerMP)) {
+			if(!isDead) // prevents infinite recursion if two chickens are next to each other
+				explodeViolently();
 			return true;
 		}
 		return super.attackEntityFrom(par1DamageSource, par2);
