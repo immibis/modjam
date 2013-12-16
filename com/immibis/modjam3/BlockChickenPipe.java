@@ -112,12 +112,12 @@ public class BlockChickenPipe extends Block {
 		boolean pz = BlockChickenPipe.connects(w, x, y, z+1);
 		
 		nextDirs.clear();
-		if(nx && prev != 4) nextDirs.add(4);
-		if(px && prev != 5) nextDirs.add(5);
-		if(ny && prev != 0) nextDirs.add(0);
-		if(py && prev != 1) nextDirs.add(1);
-		if(nz && prev != 2) nextDirs.add(2);
-		if(pz && prev != 3) nextDirs.add(3);
+		if(nx && prev != 5) nextDirs.add(4);
+		if(px && prev != 4) nextDirs.add(5);
+		if(ny && prev != 1) nextDirs.add(0);
+		if(py && prev != 0) nextDirs.add(1);
+		if(nz && prev != 3) nextDirs.add(2);
+		if(pz && prev != 2) nextDirs.add(3);
 		
 		if(nextDirs.size() == 0)
 			return prev;
