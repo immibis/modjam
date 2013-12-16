@@ -290,8 +290,9 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		GameRegistry.addRecipe(new ItemStack(itemChickenBeak), "X#X", "#O#", "X#X", '#', itemChickenNugget, 'X', itemChickenCore, 'O', blockChickenBlockBlock);
 		FurnaceRecipes.smelting().addSmelting(itemChicken.itemID, new ItemStack(itemChickenIngot), 1.5f);
 		
-		EntityRegistry.registerModEntity(EntityAngryChicken.class, "immibis_modjam3.angryChicken", 0, this, 100, 5, true);
-		EntityRegistry.registerModEntity(EntityPipedItem.class, "immibis_modjam3.pipedItem", 1, this, 30, 1, true);
+		EntityRegistry.registerModEntity(EntityAngryChicken.class, "angryChicken", 0, this, 100, 5, true);
+		EntityRegistry.registerModEntity(EntityPipedItem.class, "pipedItem", 1, this, 30, 1, true); // TODO change to 20 or so
+		EntityRegistry.registerModEntity(EntityBossChicken.class, "bossChicken", 2, this, 200, 5, true);
 		
 		GameRegistry.registerCraftingHandler(this);
 		NetworkRegistry.instance().registerGuiHandler(this, this);

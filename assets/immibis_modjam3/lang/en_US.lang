@@ -26,5 +26,6 @@ item.immibis_modjam3.glue.name=Sticken
 
 immibis_modjam3.ichest_inv=Inventory
 death.attack.immibis_modjam3.chicken=%1$s was plucked to death
+entity.ChickenBones.bossChicken.name=Mother Clucker
 immibis_modjam3.use_wrcbe=You can't place wires with WIRELESS redstone!.
 

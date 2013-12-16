@@ -3,6 +3,7 @@ package com.immibis.modjam3;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelChicken;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 public class ClientProxy extends Proxy {
@@ -10,6 +11,8 @@ public class ClientProxy extends Proxy {
 		MinecraftForgeClient.registerItemRenderer(Modjam3Mod.blockIChest.blockID, new BlockIChestRenderItem());
 		MinecraftForgeClient.registerItemRenderer(Modjam3Mod.itemChicken.itemID, new ItemChickenRender());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityIChest.class, new TileEntityIChestRenderer());
+		
+		RenderingRegistry.registerEntityRenderingHandler(EntityBossChicken.class, new EntityBossChickenRender(new ModelChicken(), 6.0f));
 		
 		BlockChickenPipe.model = RenderingRegistry.getNextAvailableRenderId();
 		RenderingRegistry.registerBlockHandler(BlockChickenPipe.model, new BlockChickenPipeRender());
