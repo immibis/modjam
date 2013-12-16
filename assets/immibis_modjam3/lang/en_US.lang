@@ -14,6 +14,7 @@ item.immibis_modjam3.chickenwing.name=Chicken Wing
 item.immibis_modjam3.pickaxe.name=Chickaxe
 item.immibis_modjam3.wirelessredstone.name=Wireless Redstone (Chicken Bone Edition)
 item.immibis_modjam3.chickenbeak.name=Chicken Chomper
+item.immibis_modjam3.lstaff.name=Elec-chick staff
 
 item.immibis_modjam3.axe.name=Hatchick
 item.immibis_modjam3.shovel.name=Chovel
@@ -28,4 +29,4 @@ immibis_modjam3.ichest_inv=Inventory
 death.attack.immibis_modjam3.chicken=%1$s was plucked to death
 entity.ChickenBones.bossChicken.name=Mother Clucker
 immibis_modjam3.use_wrcbe=You can't place wires with WIRELESS redstone!.
-
+immibis_modjam3.egg_subtitle=I got laid today.
