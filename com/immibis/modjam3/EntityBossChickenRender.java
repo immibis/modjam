@@ -15,8 +15,9 @@ public class EntityBossChickenRender extends RenderChicken {
 	@Override
 	public void renderChicken(EntityChicken par1EntityChicken, double par2, double par4, double par6, float par8, float par9) {
 		GL11.glPushMatrix();
+		GL11.glTranslated(par2, par4, par6);
 		GL11.glScalef(20, 20, 20);
-		super.renderChicken(par1EntityChicken, par2, par4, par6, par8, par9);
+		super.renderChicken(par1EntityChicken, 0, 0, 0, par8, par9);
 		GL11.glPopMatrix();
 	}
 	
