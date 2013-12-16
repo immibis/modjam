@@ -40,7 +40,6 @@ public class EntityBossChicken extends EntityChicken implements IBossDisplayData
 	public EntityBossChicken(World par1World) {
 		super(par1World);
 		
-		scale = MAX_SCALE;
 		setSize(0.3f * scale, 0.7f * scale);
 		
 		this.tasks.taskEntries.clear();

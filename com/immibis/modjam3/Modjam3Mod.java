@@ -89,6 +89,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 	public static Item[] itemRecords;
 	public static Item itemWRCBE;
 	public static Item itemChickenBeak;
+	public static Item itemLightningStaff;
 	
 	public static EnumToolMaterial toolMaterialChicken = EnumHelper.addToolMaterial("IMMIBIS_MJ3", 1, 500, 16.0f, 0.0f, 35);
 	
@@ -115,6 +116,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 	private int itemid_record3 = -1;
 	private int itemid_wrcbe = -1;
 	private int itemid_chomper = -1;
+	private int itemid_lstaff = -1;
 	
 	private int preinit_block(String name) {
 		if(cfg.getCategory(Configuration.CATEGORY_BLOCK).keySet().contains(name))
@@ -154,6 +156,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		itemid_record3 = preinit_item("record3");
 		itemid_wrcbe = preinit_item("wrcbe");
 		itemid_chomper = preinit_item("chomper");
+		itemid_lstaff = preinit_item("lstaff");
 	}
 	
 	@EventHandler
@@ -196,6 +199,8 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 			itemid_wrcbe = cfg.getItem("wrcbe", 23456).getInt(23456);
 		if(itemid_chomper == -1)
 			itemid_chomper = cfg.getItem("chomper", 23456).getInt(23456);
+		if(itemid_lstaff == -1)
+			itemid_lstaff = cfg.getItem("lstaff", 23456).getInt(23456);
 			
 		if(cfg.hasChanged())
 			cfg.save();
@@ -215,6 +220,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		itemChickenWing = new ItemChickenWing(itemid_cwing);
 		itemWRCBE = new ItemWirelessRedstone(itemid_wrcbe);
 		itemChickenBeak = new ItemChickenBeak(itemid_chomper);
+		itemLightningStaff = new ItemLightningStaff(itemid_lstaff);
 		
 		if(!MODJAM) {
 			itemRecords = new Item[] {
@@ -255,6 +261,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		GameRegistry.registerItem(itemChickenStaff, "chickenstaff");
 		GameRegistry.registerItem(itemChickaxe, "chickaxe");
 		GameRegistry.registerItem(itemChickenWing, "chickenWing");
+		GameRegistry.registerItem(itemLightningStaff, "lstaff");
 		if(!MODJAM) {
 			GameRegistry.registerItem(itemRecords[0], "record1");
 			GameRegistry.registerItem(itemRecords[1], "record2");

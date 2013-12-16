@@ -21,8 +21,7 @@ public class ItemChicken extends Item {
 		
 		if(!par3World.isRemote) {
 			par1ItemStack.stackSize--;
-			//EntityChicken ec = new EntityChicken(par3World);
-			EntityChicken ec = new EntityBossChicken(par3World); // TODO change back!
+			EntityChicken ec = new EntityChicken(par3World);
 			ForgeDirection fd = ForgeDirection.VALID_DIRECTIONS[par7];
 			ec.setPosition(par4 + 0.5 + fd.offsetX, par5 + 0.5 + fd.offsetY, par6 + 0.5 + fd.offsetZ);
 			par3World.spawnEntityInWorld(ec);
