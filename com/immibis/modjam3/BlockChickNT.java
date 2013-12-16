@@ -23,8 +23,8 @@ public class BlockChickNT extends BlockTNT {
     public BlockChickNT(int par1) {
         super(par1);
         
-        //setTextureName("immibis_modjam3:tnt");
-        //setUnlocalizedName("immibis_modjam3.tnt");
+        setTextureName("tnt");
+        setUnlocalizedName("immibis_modjam3.tnt");
     }
     
     private static class EntityChickNTPrimed extends EntityTNTPrimed {
