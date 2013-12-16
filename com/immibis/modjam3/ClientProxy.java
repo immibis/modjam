@@ -12,7 +12,7 @@ public class ClientProxy extends Proxy {
 		MinecraftForgeClient.registerItemRenderer(Modjam3Mod.itemChicken.itemID, new ItemChickenRender());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityIChest.class, new TileEntityIChestRenderer());
 		
-		RenderingRegistry.registerEntityRenderingHandler(EntityBossChicken.class, new EntityBossChickenRender(new ModelChicken(), 6.0f));
+		RenderingRegistry.registerEntityRenderingHandler(EntityBossChicken.class, new EntityBossChickenRender(new ModelChicken(), 0.3f));
 		
 		BlockChickenPipe.model = RenderingRegistry.getNextAvailableRenderId();
 		RenderingRegistry.registerBlockHandler(BlockChickenPipe.model, new BlockChickenPipeRender());

@@ -12,17 +12,36 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityBossChicken extends EntityChicken implements IBossDisplayData {
 
-	public static final float SCALE = 8; // was 20
+	static final float MAX_SCALE = 8; // was 20
+	static final float GROW_RATE = 0.1f;
+	
+	float scale = 1;
+	
+	@Override
+	public void writeEntityToNBT(NBTTagCompound par1nbtTagCompound) {
+		super.writeEntityToNBT(par1nbtTagCompound);
+		par1nbtTagCompound.setFloat("scale", scale);
+	}
+	
+	@Override
+	public void readEntityFromNBT(NBTTagCompound par1nbtTagCompound) {
+		super.readEntityFromNBT(par1nbtTagCompound);
+		scale = par1nbtTagCompound.getFloat("scale");
+		setSize(0.3f * scale, 0.7f * scale);
+	}
 	
 	public EntityBossChicken(World par1World) {
 		super(par1World);
-		setSize(0.3f * SCALE, 0.7f * SCALE);
+		
+		scale = MAX_SCALE;
+		setSize(0.3f * scale, 0.7f * scale);
 		
 		this.tasks.taskEntries.clear();
 		this.tasks.addTask(0, new EntityAISwimming(this));
@@ -32,11 +51,23 @@ public class EntityBossChicken extends EntityChicken implements IBossDisplayData
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 	}
 	
+	@Override
+	public void onUpdate() {
+		super.onUpdate();
+		
+		if(scale < MAX_SCALE) {
+			scale += GROW_RATE;
+			if(scale >= MAX_SCALE)
+				scale = MAX_SCALE;
+			setSize(0.3f * scale, 0.7f * scale);
+		}
+	}
+	
 	protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(300.0D);
-        //this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.6D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.6D);
         this.getEntityAttribute(SharedMonsterAttributes.followRange).setAttribute(40.0D);
     }
 	
