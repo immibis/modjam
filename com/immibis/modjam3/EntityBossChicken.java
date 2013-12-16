@@ -1,9 +1,10 @@
 package com.immibis.modjam3;
 
+import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.world.World;
 
-public class EntityBossChicken extends EntityChicken {
+public class EntityBossChicken extends EntityChicken implements IBossDisplayData {
 
 	public EntityBossChicken(World par1World) {
 		super(par1World);

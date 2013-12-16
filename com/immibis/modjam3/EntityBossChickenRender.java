@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderChicken;
+import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.entity.passive.EntityChicken;
 
 public class EntityBossChickenRender extends RenderChicken {
@@ -14,6 +15,8 @@ public class EntityBossChickenRender extends RenderChicken {
 	
 	@Override
 	public void renderChicken(EntityChicken par1EntityChicken, double par2, double par4, double par6, float par8, float par9) {
+		BossStatus.setBossStatus((EntityBossChicken)par1EntityChicken, false);
+		
 		GL11.glPushMatrix();
 		GL11.glTranslated(par2, par4, par6);
 		GL11.glScalef(20, 20, 20);
