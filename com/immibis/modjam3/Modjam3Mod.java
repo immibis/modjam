@@ -30,7 +30,9 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.EnumHelper;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityStruckByLightningEvent;
+import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -72,6 +74,8 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 	public static final boolean MODJAM = true;
 	
 	public static final boolean CHICKENS_RIDE_STUFF = false;
+	
+	public static final double EGG_BOMB_CHANCE = 0.1;
 	
 	public static BlockIChest blockIChest;
 	public static BlockChickenOre blockChickenOre;
@@ -459,5 +463,20 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 			b.rotationYaw = b.prevRotationYaw = evt.entity.rotationYaw;
 			evt.entity.worldObj.spawnEntityInWorld(b);
 		}
+	}
+	
+	private boolean droppingEgg;
+	@ForgeSubscribe
+	public void onEggSoundPlay(PlaySoundAtEntityEvent evt) {
+		if(evt.entity instanceof EntityChicken && evt.name.equals("mob.chicken.plop"))
+			droppingEgg = true;
+	}
+	
+	@ForgeSubscribe
+	public void onEggDrop(EntityJoinWorldEvent evt) {
+		if(evt.entity instanceof EntityItem && ((EntityItem)evt.entity).getEntityItem().itemID == Item.egg.itemID && droppingEgg && Math.random() < EGG_BOMB_CHANCE) {
+			((EntityItem)evt.entity).setEntityItemStack(new ItemStack(itemEggBomb));
+		}
+		droppingEgg = false;
 	}
 }
