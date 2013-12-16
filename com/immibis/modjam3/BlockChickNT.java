@@ -27,7 +27,7 @@ public class BlockChickNT extends BlockTNT {
         setUnlocalizedName("immibis_modjam3.tnt");
     }
     
-    private static class EntityChickNTPrimed extends EntityTNTPrimed {
+    public static class EntityChickNTPrimed extends EntityTNTPrimed {
     	public EntityChickNTPrimed(World w) {
     		super(w);
     	}

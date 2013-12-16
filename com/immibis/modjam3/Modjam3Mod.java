@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 
+import com.immibis.modjam3.ItemEggBomb.EntityEggBomb;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.creativetab.CreativeTabs;
@@ -321,6 +323,8 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		EntityRegistry.registerModEntity(EntityAngryChicken.class, "angryChicken", 0, this, 100, 5, true);
 		EntityRegistry.registerModEntity(EntityPipedItem.class, "pipedItem", 1, this, 30, 1, true); // TODO change to 20 or so
 		EntityRegistry.registerModEntity(EntityBossChicken.class, "bossChicken", 2, this, 200, 5, true);
+		EntityRegistry.registerModEntity(ItemEggBomb.EntityEggBomb.class, "eggbomb", 3, this, 50, 3, true);
+		EntityRegistry.registerModEntity(BlockChickNT.EntityChickNTPrimed.class, "chicknt", 4, this, 50, 20, false);
 		
 		GameRegistry.registerCraftingHandler(this);
 		NetworkRegistry.instance().registerGuiHandler(this, this);
