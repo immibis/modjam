@@ -11,8 +11,10 @@ import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -41,6 +43,8 @@ public class EntityBossChicken extends EntityChicken implements IBossDisplayData
 		super(par1World);
 		
 		setSize(0.3f * scale, 0.7f * scale);
+		
+		isImmuneToFire = true;
 		
 		this.tasks.taskEntries.clear();
 		this.tasks.addTask(0, new EntityAISwimming(this));
@@ -97,6 +101,22 @@ public class EntityBossChicken extends EntityChicken implements IBossDisplayData
 		do
 			this.dropItem((isBurning() ? Item.chickenCooked : Item.chickenRaw).itemID, worldObj.rand.nextInt(32) + 32);
 		while(worldObj.rand.nextInt(3) != 0);
+	}
+	
+	private boolean recursive = false;
+	@Override
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
+		if(!(par1DamageSource.getSourceOfDamage() instanceof EntityPlayerMP)) {
+			if(!isDead)
+				explodeViolently(); // breaks infinite loop
+			return true;
+		}
+		return super.attackEntityFrom(par1DamageSource, par2);
+	}
+
+	private void explodeViolently() {
+		setDead();
+		worldObj.newExplosion(this, posX, posY, posZ, 10.0f, false, true);
 	}
 
 }

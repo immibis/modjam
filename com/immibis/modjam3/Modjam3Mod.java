@@ -30,6 +30,7 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.EnumHelper;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.EntityStruckByLightningEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -426,6 +427,21 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 			ec.setPosition(evt.entityLiving.posX, evt.entityLiving.posY, evt.entityLiving.posZ);
 			evt.world.spawnEntityInWorld(ec);
 			ec.mountEntity(evt.entityLiving);
+		}
+	}
+	
+	@ForgeSubscribe
+	public void chickenLightning(EntityStruckByLightningEvent evt) {
+		if(evt.entity instanceof EntityChicken && !(evt.entity instanceof EntityAngryChicken) && !(evt.entity instanceof EntityBossChicken) && !evt.entity.worldObj.isRemote) {
+			evt.entity.setDead();
+			
+			EntityBossChicken b = new EntityBossChicken(evt.entity.worldObj);
+			b.setPosition(evt.entity.posX, evt.entity.posY, evt.entity.posZ);
+			b.rotationPitch = b.prevRotationPitch = evt.entity.rotationPitch;
+			b.rotationYawHead = b.prevRotationYawHead = ((EntityChicken)evt.entity).rotationYawHead;
+			b.renderYawOffset = b.prevRenderYawOffset = ((EntityChicken)evt.entity).renderYawOffset;
+			b.rotationYaw = b.prevRotationYaw = evt.entity.rotationYaw;
+			evt.entity.worldObj.spawnEntityInWorld(b);
 		}
 	}
 }
