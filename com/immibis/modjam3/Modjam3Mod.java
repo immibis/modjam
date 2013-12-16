@@ -39,6 +39,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.ChunkDataEvent;
@@ -482,5 +483,14 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 			((EntityItem)evt.entity).setEntityItemStack(new ItemStack(itemEggBomb));
 		}
 		droppingEgg = false;
+	}
+	
+	@ForgeSubscribe
+	public void onPickUpEggBomb(EntityItemPickupEvent evt) {
+		if(evt.item.getEntityItem().getItem() == itemEggBomb) {
+			evt.item.setDead();
+			evt.setCanceled(true);
+			ItemEggBomb.explode(evt.entity);
+		}
 	}
 }

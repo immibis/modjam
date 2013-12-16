@@ -4,6 +4,7 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityEgg;
@@ -59,4 +60,8 @@ public class ItemEggBomb extends ItemEgg {
 
         return par1ItemStack;
     }
+
+	public static void explode(Entity player) {
+		player.worldObj.newExplosion(null, player.posX, player.posY, player.posZ, EXPLOSION_POWER, false, true);
+	}
 }
