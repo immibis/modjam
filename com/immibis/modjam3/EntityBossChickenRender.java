@@ -19,7 +19,7 @@ public class EntityBossChickenRender extends RenderChicken {
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(par2, par4, par6);
-		GL11.glScalef(20, 20, 20);
+		GL11.glScalef(EntityBossChicken.SCALE, EntityBossChicken.SCALE, EntityBossChicken.SCALE);
 		super.renderChicken(par1EntityChicken, 0, 0, 0, par8, par9);
 		GL11.glPopMatrix();
 	}
