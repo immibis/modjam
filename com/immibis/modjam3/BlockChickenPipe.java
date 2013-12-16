@@ -10,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 
 public class BlockChickenPipe extends Block {
 	
@@ -56,5 +57,9 @@ public class BlockChickenPipe extends Block {
 			return true;
 		
 		return false;
+	}
+
+	public static int chooseNextDirection(int x, int y, int z, int prev) {
+		return 1;
 	}
 }

@@ -3,9 +3,12 @@ package com.immibis.modjam3;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.item.ItemExpireEvent;
 
@@ -20,84 +23,70 @@ public class EntityPipedItem extends Entity {
 	}
 	
 	@Override
+	protected void readEntityFromNBT(NBTTagCompound tag) {
+		setStack(ItemStack.loadItemStackFromNBT(tag));
+	}
+	
+	@Override
+	protected void writeEntityToNBT(NBTTagCompound tag) {
+		getStack().writeToNBT(tag);
+	}
+	
+	public ItemStack getStack() {
+		return getDataWatcher().getWatchableObjectItemStack(10);
+	}
+	
+	public void setStack(ItemStack stack) {
+		getDataWatcher().updateObject(10, stack);
+	}
+	
+	@Override
 	public void onUpdate() {
-		ItemStack stack = this.getDataWatcher().getWatchableObjectItemStack(10);
+		ItemStack stack = getStack();
 
         super.onUpdate();
+        
+        int blockID = worldObj.getBlockId(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ));
+        if(blockID != Modjam3Mod.blockChickenPipe.blockID) {
+        	EntityItem ei = new EntityItem(worldObj, posX, posY, posZ, stack);
+        	ei.motionX = motionX;
+        	ei.motionY = motionY;
+        	ei.motionZ = motionZ;
+        	worldObj.spawnEntityInWorld(ei);
+        	setDead();
+        	return;
+        }
+        
+        double prevFX = posX - Math.floor(posX);
+        double prevFY = posY - Math.floor(posY);
+        double prevFZ = posZ - Math.floor(posZ);
 
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
-        this.motionY -= 0.03999999910593033D;
-        this.noClip = this.pushOutOfBlocks(this.posX, (this.boundingBox.minY + this.boundingBox.maxY) / 2.0D, this.posZ);
-        this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        boolean flag = (int)this.prevPosX != (int)this.posX || (int)this.prevPosY != (int)this.posY || (int)this.prevPosZ != (int)this.posZ;
-
-        if (flag || this.ticksExisted % 25 == 0)
-        {
-            if (this.worldObj.getBlockMaterial(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)) == Material.lava)
-            {
-                this.motionY = 0.20000000298023224D;
-                this.motionX = (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
-                this.motionZ = (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
-                this.playSound("random.fizz", 0.4F, 2.0F + this.rand.nextFloat() * 0.4F);
-            }
-
-            if (!this.worldObj.isRemote)
-            {
-                this.searchForOtherItemsNearby();
-            }
+        posX += motionX;
+        posY += motionY;
+        posZ += motionZ;
+        
+        double FX = posX - Math.floor(posX);
+        double FY = posY - Math.floor(posY);
+        double FZ = posZ - Math.floor(posZ);
+        
+        if((motionX < 0 && prevFX > 0.5 && FX <= 0.5) || (motionY < 0 && prevFY > 0.5 && FY <= 0.5) || (motionZ < 0 && prevFZ > 0.5 && FZ <= 0.5)
+        	|| (motionX > 0 && prevFX < 0.5 && FX >= 0.5) || (motionY > 0 && prevFY < 0.5 && FY >= 0.5) || (motionZ > 0 && prevFZ < 0.5 && FZ >= 0.5)) {
+        	
+        	// passed the middle of a pipe; decide direction
+        	posX = Math.floor(posX) + 0.5;
+        	posY = Math.floor(posY) + 0.5;
+        	posZ = Math.floor(posZ) + 0.5;
+        	
+        	double speed = motionX + motionY + motionZ;
+        	int currentDir = (motionX < 0 ? 4 : motionX > 0 ? 5 : motionY < 0 ? 0 : motionY > 0 ? 1 : motionZ < 0 ? 2 : 3);
+        	ForgeDirection next = ForgeDirection.VALID_DIRECTIONS[BlockChickenPipe.chooseNextDirection(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ), currentDir)];
+        	motionX = next.offsetX * speed;
+        	motionY = next.offsetY * speed;
+        	motionZ = next.offsetZ * speed;
         }
 
-        float f = 0.98F;
-
-        if (this.onGround)
-        {
-            f = 0.58800006F;
-            int i = this.worldObj.getBlockId(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
-
-            if (i > 0)
-            {
-                f = Block.blocksList[i].slipperiness * 0.98F;
-            }
-        }
-
-        this.motionX *= (double)f;
-        this.motionY *= 0.9800000190734863D;
-        this.motionZ *= (double)f;
-
-        if (this.onGround)
-        {
-            this.motionY *= -0.5D;
-        }
-
-        ++this.age;
-
-        ItemStack item = getDataWatcher().getWatchableObjectItemStack(10);
-
-        if (!this.worldObj.isRemote && this.age >= lifespan)
-        {
-            if (item != null)
-            {   
-                ItemExpireEvent event = new ItemExpireEvent(this, (item.getItem() == null ? 6000 : item.getItem().getEntityLifespan(item, worldObj)));
-                if (MinecraftForge.EVENT_BUS.post(event))
-                {
-                    lifespan += event.extraLife;
-                }
-                else
-                {
-                    this.setDead();
-                }
-            }
-            else
-            {
-                this.setDead();
-            }
-        }
-
-        if (item != null && item.stackSize <= 0)
-        {
-            this.setDead();
-        }
 	}
 }
