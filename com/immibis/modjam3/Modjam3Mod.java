@@ -291,6 +291,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		FurnaceRecipes.smelting().addSmelting(itemChicken.itemID, new ItemStack(itemChickenIngot), 1.5f);
 		
 		EntityRegistry.registerModEntity(EntityAngryChicken.class, "immibis_modjam3.angryChicken", 0, this, 100, 5, true);
+		EntityRegistry.registerModEntity(EntityPipedItem.class, "immibis_modjam3.pipedItem", 1, this, 30, 1, true);
 		
 		GameRegistry.registerCraftingHandler(this);
 		NetworkRegistry.instance().registerGuiHandler(this, this);
