@@ -8,6 +8,7 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.boss.IBossDisplayData;
+import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
@@ -44,8 +45,6 @@ public class EntityBossChicken extends EntityChicken implements IBossDisplayData
 		
 		setSize(0.3f * scale, 0.7f * scale);
 		
-		isImmuneToFire = true;
-		
 		this.tasks.taskEntries.clear();
 		this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIBreakDoor(this));
@@ -57,6 +56,8 @@ public class EntityBossChicken extends EntityChicken implements IBossDisplayData
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
+		
+		extinguish();
 		
 		if(scale < MAX_SCALE) {
 			scale += GROW_RATE;
@@ -106,12 +107,24 @@ public class EntityBossChicken extends EntityChicken implements IBossDisplayData
 	private boolean recursive = false;
 	@Override
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
+		if(par1DamageSource == DamageSource.onFire)
+			return true;
 		if(!worldObj.isRemote && !(par1DamageSource.getSourceOfDamage() instanceof EntityPlayerMP)) {
 			if(!isDead) // prevents infinite recursion if two chickens are next to each other
 				explodeViolently();
 			return true;
 		}
 		return super.attackEntityFrom(par1DamageSource, par2);
+	}
+	
+	@Override
+	public void onStruckByLightning(EntityLightningBolt par1EntityLightningBolt) {
+		if(!worldObj.isRemote)
+			setHealth(getMaxHealth());
+	}
+	
+	@Override
+	protected void dealFireDamage(int par1) {
 	}
 
 	private void explodeViolently() {
