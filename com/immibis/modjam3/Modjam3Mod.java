@@ -78,6 +78,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 	public static Block blockChickenBlock;
 	public static Block blockChickenBlockBlock;
 	public static Block blockChickenPipe;
+	public static Block blockChickNT;
 	public static Item itemChickenBone;
 	public static Item itemEggStaff;
 	public static ItemChicken itemChicken;
@@ -103,6 +104,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 	private int blockid_cblock = -1;
 	private int blockid_cblockblock = -1;
 	private int blockid_chickenpipe = -1;
+	private int blockid_chicknt = -1;
 	private int itemid_chickenBone = -1;
 	private int itemid_eggstaff = -1;
 	private int itemid_chicken = -1;
@@ -143,6 +145,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		blockid_cblock = preinit_block("chickenBlock");
 		blockid_cblockblock = preinit_block("chickenBlockBlock");
 		blockid_chickenpipe = preinit_block("chickenPipe");
+		blockid_chicknt = preinit_block("chicknt");
 		itemid_chickenBone = preinit_item("chickenbone");
 		itemid_eggstaff = preinit_item("eggstaff");
 		itemid_chicken = preinit_item("chicken");
@@ -172,6 +175,8 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 			blockid_cblockblock = cfg.getBlock("chickenBlockBlock", 2345).getInt(2345);
 		if(blockid_chickenpipe == -1)
 			blockid_chickenpipe = cfg.getBlock("chickenPipe", 2345).getInt(2345);
+		if(blockid_chicknt == -1)
+			blockid_chicknt = cfg.getBlock("chicknt", 2345).getInt(2345);
 		if(itemid_chickenBone == -1)
 			itemid_chickenBone = cfg.getItem("chickenbone", 23456).getInt(23456);
 		if(itemid_eggstaff == -1)
@@ -214,6 +219,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		blockChickenBlock = new BlockChickenBlock(blockid_cblock);
 		blockChickenBlockBlock = new BlockChickenBlock(blockid_cblockblock).setUnlocalizedName("immibis_modjam3.chickenblockblock").setTextureName("immibis_modjam3:compressed_chicken_block");
 		blockChickenPipe = new BlockChickenPipe(blockid_chickenpipe);
+		blockChickNT = new BlockChickNT(blockid_chicknt);
 		itemEggStaff = new ItemEggStaff(itemid_eggstaff);
 		itemChicken = new ItemChicken(itemid_chicken);
 		itemChickenStaff = new ItemChickenStaff(itemid_chickenstaff);
@@ -275,6 +281,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 		GameRegistry.registerBlock(blockChickenBlock, "chickenblock");
 		GameRegistry.registerBlock(blockChickenBlockBlock, "chickenblockblock");
 		GameRegistry.registerBlock(blockChickenPipe, "chickenpipe");
+		GameRegistry.registerBlock(blockChickNT, "chicknt");
 		
 		GameRegistry.registerTileEntity(TileEntityIChest.class, "immibis_modjam3.ichest");
 		

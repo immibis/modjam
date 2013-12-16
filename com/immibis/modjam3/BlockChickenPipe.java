@@ -26,9 +26,9 @@ public class BlockChickenPipe extends Block {
 	public BlockChickenPipe(int id) {
 		super(id, Material.iron);
 		
-		setCreativeTab(CreativeTabs.tabTransport);
+		//setCreativeTab(CreativeTabs.tabTransport);
 		setTextureName("immibis_modjam3:chicken_pipe");
-		setUnlocalizedName("immibis_modjam3:chickenpipe");
+		setUnlocalizedName("immibis_modjam3.chickenpipe");
 	}
 	
 	@Override
