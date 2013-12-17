@@ -21,13 +21,13 @@ public class ItemLightningStaff extends Item {
 	}
 	
 	@Override
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
+	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer ply) {
 		
 		final double RANGE = 100;
 		
-		Vec3 lookdir = par3EntityPlayer.getLook(1);
+		Vec3 lookdir = ply.getLook(1);
 		
-		Vec3 src = par3EntityPlayer.getPosition(1).addVector(lookdir.xCoord, lookdir.yCoord+par3EntityPlayer.getEyeHeight(), lookdir.zCoord);
+		Vec3 src = par2World.getWorldVec3Pool().getVecFromPool(ply.posX+lookdir.xCoord, ply.posY+lookdir.yCoord+ply.getEyeHeight(), ply.posZ+lookdir.zCoord);
 		Vec3 dst = src.addVector(lookdir.xCoord*RANGE, lookdir.yCoord*RANGE, lookdir.zCoord*RANGE);
 		
 		MovingObjectPosition rt = par2World.rayTraceBlocks_do_do(src, dst, true, true);
@@ -37,7 +37,7 @@ public class ItemLightningStaff extends Item {
 		if(!par2World.isRemote)
 			par2World.addWeatherEffect(new EntityLightningBolt(par2World, rt.hitVec.xCoord, rt.hitVec.yCoord, rt.hitVec.zCoord));
 		
-		par1ItemStack.damageItem(1, par3EntityPlayer);
+		par1ItemStack.damageItem(1, ply);
 		return par1ItemStack;
 	}
 }
