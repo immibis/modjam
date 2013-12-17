@@ -42,8 +42,18 @@ public class ItemChickenWing extends Item {
 		player.motionX = adjustSpeed(player.motionX, vec.xCoord);
 		player.motionY = adjustSpeed(player.motionY, vec.yCoord);
 		player.motionZ = adjustSpeed(player.motionZ, vec.zCoord);
-		if(player.motionY >= 0)
-			player.fallDistance = 0;
+		
+		//if(player.motionY >= 0) player.fallDistance = 0;
+		
+		final double gravity = 0.08;
+		// if the player slows down while falling, decrease their fall distance to be equivalent to their velocity
+		// v = a*t
+		// t = v/a
+		// d = 0.5*a*t^2
+		// d = 0.5*a*(v/a)^2
+		// d = 0.5/a*v^2
+		
+		player.fallDistance = Math.min(player.fallDistance, (float)Math.max(0, 0.5 / gravity * player.motionY * player.motionY));
 		
 		par1ItemStack.damageItem(1, player);
 	}
