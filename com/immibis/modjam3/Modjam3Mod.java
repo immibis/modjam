@@ -473,12 +473,15 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 	private boolean droppingEgg;
 	@ForgeSubscribe
 	public void onEggSoundPlay(PlaySoundAtEntityEvent evt) {
-		if(evt.entity instanceof EntityChicken && evt.name.equals("mob.chicken.plop"))
+		if(!evt.entity.worldObj.isRemote && evt.entity instanceof EntityChicken && evt.name.equals("mob.chicken.plop"))
 			droppingEgg = true;
 	}
 	
 	@ForgeSubscribe
 	public void onEggDrop(EntityJoinWorldEvent evt) {
+		if(evt.world.isRemote)
+			return;
+		
 		if(evt.entity instanceof EntityItem && ((EntityItem)evt.entity).getEntityItem().itemID == Item.egg.itemID && droppingEgg && Math.random() < EGG_BOMB_CHANCE) {
 			((EntityItem)evt.entity).setEntityItemStack(new ItemStack(itemEggBomb));
 		}
@@ -487,7 +490,7 @@ public class Modjam3Mod implements IGuiHandler, ICraftingHandler, ITickHandler, 
 	
 	@ForgeSubscribe
 	public void onPickUpEggBomb(EntityItemPickupEvent evt) {
-		if(evt.item.getEntityItem().getItem() == itemEggBomb) {
+		if(!evt.entity.worldObj.isRemote && evt.item.getEntityItem().getItem() == itemEggBomb) {
 			evt.item.setDead();
 			evt.setCanceled(true);
 			ItemEggBomb.explode(evt.entity);
