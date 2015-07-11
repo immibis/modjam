@@ -6,11 +6,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class ItemChicken extends Item {
-	public ItemChicken(int id) {
-		super(id);
+	public ItemChicken() {
+		super();
 		
 		setCreativeTab(CreativeTabs.tabMaterials);
 		setUnlocalizedName("immibis_modjam3.chicken");

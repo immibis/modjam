@@ -3,7 +3,7 @@ package com.immibis.modjam3;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
@@ -88,7 +88,7 @@ public class BlockChickenPipeRender implements ISimpleBlockRenderingHandler {
 		return true;
 	}
 	
-	private void renderStandardBlock(RenderBlocks rb, Block block, int x, int y, int z, boolean nx, boolean px, boolean ny, boolean py, boolean nz, boolean pz, Icon iXZ, Icon iY) {
+	private void renderStandardBlock(RenderBlocks rb, Block block, int x, int y, int z, boolean nx, boolean px, boolean ny, boolean py, boolean nz, boolean pz, IIcon iXZ, IIcon iY) {
 		Tessellator t = Tessellator.instance;
 		
 		if(rb.hasOverrideBlockTexture()) {
@@ -147,7 +147,7 @@ public class BlockChickenPipeRender implements ISimpleBlockRenderingHandler {
 	}
 
 	@Override
-	public boolean shouldRender3DInInventory() {
+	public boolean shouldRender3DInInventory(int model) {
 		return true;
 	}
 }

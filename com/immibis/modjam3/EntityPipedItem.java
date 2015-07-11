@@ -1,16 +1,14 @@
 package com.immibis.modjam3;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.item.ItemExpireEvent;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class EntityPipedItem extends Entity {
 	public EntityPipedItem(World w) {
@@ -19,7 +17,7 @@ public class EntityPipedItem extends Entity {
 	
 	@Override
 	protected void entityInit() {
-		getDataWatcher().addObject(10, new ItemStack(1, 1, 0));
+		getDataWatcher().addObject(10, new ItemStack(Blocks.stone));
 	}
 	
 	@Override
@@ -51,8 +49,8 @@ public class EntityPipedItem extends Entity {
 		if(worldObj.isRemote)
 			return;
         
-        int blockID = worldObj.getBlockId(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ));
-        if(blockID != Modjam3Mod.blockChickenPipe.blockID) {
+        Block blockID = worldObj.getBlock(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ));
+        if(blockID != Modjam3Mod.blockChickenPipe) {
         	double c = 1 / (motionX + motionY + motionZ);
         	posX += motionX * c;
         	posY += motionY * c;

@@ -1,39 +1,37 @@
 package com.immibis.modjam3;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockChickenOre extends Block {
-	public BlockChickenOre(int id) {
-		super(id, Material.rock);
+	public BlockChickenOre() {
+		super(Material.rock);
 		
 		setCreativeTab(CreativeTabs.tabBlock);
-		setUnlocalizedName("immibis_modjam3.chickenore");
-		setTextureName("immibis_modjam3:chicken_ore");
+		setBlockName("immibis_modjam3.chickenore");
+		setBlockTextureName("immibis_modjam3:chicken_ore");
 		setHardness(3.0F);
 		setResistance(5.0F);
-		setStepSound(soundStoneFootstep);
+		setStepSound(soundTypeStone);
 	}
 	
-	private Icon iSide;
+	private IIcon iSide;
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister par1IconRegister) {
-		super.registerIcons(par1IconRegister);
+	public void registerBlockIcons(IIconRegister par1IconRegister) {
+		super.registerBlockIcons(par1IconRegister);
 		iSide = par1IconRegister.registerIcon("immibis_modjam3:chicken_ore_side");
 	}
 	
@@ -44,7 +42,7 @@ public class BlockChickenOre extends Block {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Icon getIcon(int par1, int par2) {
+	public IIcon getIcon(int par1, int par2) {
 		if(par1 == 4)
 			return blockIcon;
 		else
@@ -57,7 +55,7 @@ public class BlockChickenOre extends Block {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Icon getBlockTexture(IBlockAccess par1iBlockAccess, int par2, int par3, int par4, int par5) {
+	public IIcon getIcon(IBlockAccess par1iBlockAccess, int par2, int par3, int par4, int par5) {
 		int meta = par1iBlockAccess.getBlockMetadata(par2, par3, par4);
 		return (meta != 0 ? meta : getHashedFakeMeta(par2, par3, par4)) == par5 ? blockIcon : iSide;
 	}

@@ -1,34 +1,25 @@
 package com.immibis.modjam3;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockChickenBlock extends Block {
-	public BlockChickenBlock(int id) {
-		super(id, Material.iron);
+	public BlockChickenBlock() {
+		super(Material.iron);
 		
 		setCreativeTab(CreativeTabs.tabBlock);
-		setUnlocalizedName("immibis_modjam3.chickenblock");
-		setTextureName("immibis_modjam3:chicken_block");
+		setBlockName("immibis_modjam3.chickenblock");
+		setBlockTextureName("immibis_modjam3:chicken_block");
 		setHardness(3.0F);
 		setResistance(10.0F);
-		setStepSound(soundMetalFootstep);
+		setStepSound(soundTypeMetal);
 	}
 	
 	@Override
-	public void onNeighborBlockChange(World w, int x, int y, int z, int par5) {
+	public void onNeighborBlockChange(World w, int x, int y, int z, Block par5) {
 		int oldMeta = w.getBlockMetadata(x, y, z);
 		boolean wasPowered = (oldMeta & 1) == 1;
 		
@@ -36,7 +27,7 @@ public class BlockChickenBlock extends Block {
 			w.setBlockMetadataWithNotify(x, y, z, oldMeta ^ 1, 0);
 			
 			if(!wasPowered) {
-				w.addBlockEvent(x, y, z, blockID, 0, 0);
+				w.addBlockEvent(x, y, z, this, 0, 0);
 			}
 		}
 	}
@@ -60,7 +51,7 @@ public class BlockChickenBlock extends Block {
 			return true;
 		
 		w.setBlockMetadataWithNotify(x, y, z, (w.getBlockMetadata(x, y, z) + 2) & 15, 3);
-		w.addBlockEvent(x, y, z, blockID, 0, 0);
+		w.addBlockEvent(x, y, z, this, 0, 0);
 		return true;
 	}
 	

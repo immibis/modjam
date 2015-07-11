@@ -1,7 +1,8 @@
 package com.immibis.modjam3;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
+import java.util.List;
+import java.util.UUID;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
@@ -23,7 +24,7 @@ public class TileEntityIChest extends TileEntity implements IInventory {
     /** Server sync counter (once per 20 ticks) */
     private int ticksSinceSync;
     
-    String owner = "";
+    UUID owner = null;
     InventoryPlayer inv;
     EntityPlayer ply;
     ItemStack[] cl_inv = new ItemStack[36];
@@ -32,21 +33,30 @@ public class TileEntityIChest extends TileEntity implements IInventory {
      * Allows the entity to update its state. Overridden in most subclasses, e.g. the mob spawner uses this to count
      * ticks and creates a new spawn inside its implementation.
      */
-    public void updateEntity()
+    @Override
+	public void updateEntity()
     {
         super.updateEntity();
         
         if(!worldObj.isRemote) {
-        	if(ply == null || ply.isDead)
-        		ply = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(owner);
+        	if(owner == null)
+        		ply = null;
+        	else {
+        		if(ply == null || ply.isDead)
+        			ply = null;
+        			for(EntityPlayer pl : (List<EntityPlayer>)MinecraftServer.getServer().getConfigurationManager().playerEntityList)
+        				if(pl.getGameProfile() != null && pl.getGameProfile().getId().equals(owner)) {
+        					ply = pl;
+        					break;
+        				}
+        	}
         	inv = (ply == null ? null : ply.inventory);
         	cl_inv = null;
-        	
         }
 
         if (++this.ticksSinceSync % 20 * 4 == 0)
         {
-            this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, getBlockType().blockID, 1, this.numUsingPlayers);
+            this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, getBlockType(), 1, this.numUsingPlayers);
         }
 
         this.prevLidAngle = this.lidAngle;
@@ -97,7 +107,8 @@ public class TileEntityIChest extends TileEntity implements IInventory {
     /**
      * Called when a client event is received with the event number and argument, see World.sendClientEvent
      */
-    public boolean receiveClientEvent(int par1, int par2)
+    @Override
+	public boolean receiveClientEvent(int par1, int par2)
     {
         if (par1 == 1)
         {
@@ -113,39 +124,49 @@ public class TileEntityIChest extends TileEntity implements IInventory {
     /**
      * invalidates a tile entity
      */
-    public void invalidate()
+    @Override
+	public void invalidate()
     {
         this.updateContainingBlockInfo();
         super.invalidate();
     }
 
-    public void openChest()
+    @Override
+	public void openInventory()
     {
         ++this.numUsingPlayers;
-        this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, getBlockType().blockID, 1, this.numUsingPlayers);
+        this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, getBlockType(), 1, this.numUsingPlayers);
     }
 
-    public void closeChest()
+    @Override
+	public void closeInventory()
     {
         --this.numUsingPlayers;
-        this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, getBlockType().blockID, 1, this.numUsingPlayers);
+        this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, getBlockType(), 1, this.numUsingPlayers);
     }
 
-    public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
+    @Override
+	public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
     {
-        return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
+        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) == this
+        	&& par1EntityPlayer.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
     }
     
     @Override
-    public void writeToNBT(NBTTagCompound par1nbtTagCompound) {
-    	super.writeToNBT(par1nbtTagCompound);
-    	par1nbtTagCompound.setString("owner", owner);
+    public void writeToNBT(NBTTagCompound tag) {
+    	super.writeToNBT(tag);
+    	if(owner != null) {
+    		tag.setLong("ownerMSL", owner.getMostSignificantBits());
+    		tag.setLong("ownerLSL", owner.getLeastSignificantBits());
+    	}
     }
     
     @Override
-    public void readFromNBT(NBTTagCompound par1nbtTagCompound) {
-    	super.readFromNBT(par1nbtTagCompound);
-    	owner = par1nbtTagCompound.getString("owner");
+    public void readFromNBT(NBTTagCompound tag) {
+    	super.readFromNBT(tag);
+    	if(tag.hasKey("ownerMSL") && tag.hasKey("ownerLSL")) {
+    		owner = new UUID(tag.getLong("ownerMSL"), tag.getLong("ownerLSL"));
+    	}
     }
 
 	@Override
@@ -169,12 +190,12 @@ public class TileEntityIChest extends TileEntity implements IInventory {
 	}
 	
 	@Override
-	public String getInvName() {
+	public String getInventoryName() {
 		return "immibis_modjam3.ichest_inv";
 	}
 	
 	@Override
-	public boolean isInvNameLocalized() {
+	public boolean hasCustomInventoryName() {
 		return false;
 	}
 	
@@ -199,10 +220,10 @@ public class TileEntityIChest extends TileEntity implements IInventory {
 	}
 	
 	@Override
-	public void onInventoryChanged() {
-		super.onInventoryChanged();
+	public void markDirty() {
+		super.markDirty();
 		if(inv != null)
-			inv.onInventoryChanged();
+			inv.markDirty();
 	}
 	
 	@Override

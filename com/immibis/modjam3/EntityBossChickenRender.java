@@ -1,11 +1,11 @@
 package com.immibis.modjam3;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderChicken;
 import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.entity.passive.EntityChicken;
+
+import org.lwjgl.opengl.GL11;
 
 public class EntityBossChickenRender extends RenderChicken {
 
@@ -14,14 +14,14 @@ public class EntityBossChickenRender extends RenderChicken {
 	}
 	
 	@Override
-	public void renderChicken(EntityChicken par1EntityChicken, double par2, double par4, double par6, float par8, float par9) {
+	public void doRender(EntityChicken par1EntityChicken, double par2, double par4, double par6, float par8, float par9) {
 		BossStatus.setBossStatus((EntityBossChicken)par1EntityChicken, false);
 		
 		float scale = Math.min(EntityBossChicken.MAX_SCALE, ((EntityBossChicken)par1EntityChicken).scale + par9 * EntityBossChicken.GROW_RATE);
 		GL11.glPushMatrix();
 		GL11.glTranslated(par2, par4, par6);
 		GL11.glScalef(scale, scale, scale);
-		super.renderChicken(par1EntityChicken, 0, 0, 0, par8, par9);
+		super.doRender(par1EntityChicken, 0, 0, 0, par8, par9);
 		GL11.glPopMatrix();
 	}
 	

@@ -4,31 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
 
 public class BlockChickenPipe extends Block {
 	
 	static int model;
 	
-	public BlockChickenPipe(int id) {
-		super(id, Material.iron);
+	public BlockChickenPipe() {
+		super(Material.iron);
 		
 		//setCreativeTab(CreativeTabs.tabTransport);
-		setTextureName("immibis_modjam3:chicken_pipe");
-		setUnlocalizedName("immibis_modjam3.chickenpipe");
+		setBlockTextureName("immibis_modjam3:chicken_pipe");
+		setBlockName("immibis_modjam3.chickenpipe");
 	}
 	
 	@Override
@@ -46,21 +42,22 @@ public class BlockChickenPipe extends Block {
 		return model;
 	}
 	
-	public static Icon icon, iconCV, iconCH;
+	public static IIcon icon, iconCV, iconCH;
 	
-	public void registerIcons(IconRegister par1IconRegister) {
-		super.registerIcons(par1IconRegister);
+	@Override
+	public void registerBlockIcons(IIconRegister par1IconRegister) {
+		super.registerBlockIcons(par1IconRegister);
 		icon = blockIcon;
 		iconCH = par1IconRegister.registerIcon("immibis_modjam3:chicken_pipe_ch");
 		iconCV = par1IconRegister.registerIcon("immibis_modjam3:chicken_pipe_cv");
 	}
 
 	public static boolean connects(IBlockAccess w, int x, int y, int z) {
-		int id = w.getBlockId(x, y, z);
-		if(id == Modjam3Mod.blockChickenPipe.blockID)
+		Block id = w.getBlock(x, y, z);
+		if(id == Modjam3Mod.blockChickenPipe)
 			return true;
 		
-		if(w.getBlockTileEntity(x, y, z) instanceof IInventory)
+		if(w.getTileEntity(x, y, z) instanceof IInventory)
 			return true;
 		
 		return false;
@@ -72,7 +69,7 @@ public class BlockChickenPipe extends Block {
 	}
 	
 	private void addCollisionBoxToList(double nx, double ny, double nz, double px, double py, double pz, int x, int y, int z, AxisAlignedBB mask, List list) {
-		AxisAlignedBB bb = AxisAlignedBB.getAABBPool().getAABB(nx, ny, nz, px, py, pz).offset(x, y, z);
+		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(nx, ny, nz, px, py, pz).offset(x, y, z);
 		if(mask.intersectsWith(bb))
 			list.add(bb);
 	}

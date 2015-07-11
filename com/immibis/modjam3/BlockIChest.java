@@ -1,45 +1,46 @@
 package com.immibis.modjam3;
 
-import java.util.Random;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockContainer;
-import net.minecraft.block.BlockEnderChest;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.InventoryEnderChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityEnderChest;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import com.mojang.authlib.GameProfile;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockIChest extends BlockContainer {
-	public BlockIChest(int id) {
-		super(id, Material.rock);
+	public BlockIChest() {
+		super(Material.rock);
 		
 		setCreativeTab(CreativeTabs.tabDecorations);
         setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
-		setUnlocalizedName("immibis_modjam3.ichest");
-		setStepSound(soundStoneFootstep);
+		setBlockName("immibis_modjam3.ichest");
+		setStepSound(soundTypeStone);
 		setHardness(3.5F);
 		setResistance(1000.0F);
 	}
 
-    public boolean isOpaqueCube() {return false;}
-    public boolean renderAsNormalBlock() {return false;}
-    public int getRenderType() {return 22;}
+    @Override
+	public boolean isOpaqueCube() {return false;}
+    @Override
+	public boolean renderAsNormalBlock() {return false;}
+    @Override
+	public int getRenderType() {return 22;}
 
     /**
      * Called when the block is placed in the world.
      */
-    public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
+    @Override
+	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
     {
         byte b0 = 0;
         int l = MathHelper.floor_double((double)(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
@@ -58,31 +59,29 @@ public class BlockIChest extends BlockContainer {
 
         par1World.setBlockMetadataWithNotify(par2, par3, par4, b0, 2);
         
-        ((TileEntityIChest)par1World.getBlockTileEntity(par2, par3, par4)).owner = (par5EntityLivingBase instanceof EntityPlayer ? ((EntityPlayer)par5EntityLivingBase).username : "");
+        GameProfile profile = (par5EntityLivingBase instanceof EntityPlayer ? ((EntityPlayer)par5EntityLivingBase).getGameProfile() : null);
+        
+        ((TileEntityIChest)par1World.getTileEntity(par2, par3, par4)).owner = (profile == null ? null : profile.getId());
     }
 
     /**
      * Called upon block activation (right click on the block.)
      */
-    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
+    @Override
+	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
     {
-    	if(!par1World.isBlockNormalCube(par2, par3 + 1, par4) && !par1World.isRemote)
+    	if(!par1World.getBlock(par2, par3 + 1, par4).isSideSolid(par1World, par2, par3+1, par4, ForgeDirection.DOWN) && !par1World.isRemote)
     		par5EntityPlayer.openGui(Modjam3Mod.instance, Modjam3Mod.GUI_ICHEST, par1World, par2, par3, par4);
     	return true;
     }
 
-    /**
-     * Returns a new instance of a block's tile entity class. Called on placing the block.
-     */
-    public TileEntity createNewTileEntity(World par1World)
+    @Override
+	public TileEntity createNewTileEntity(World par1World, int meta)
     {
         return new TileEntityIChest();
     }
 
     //@SideOnly(Side.CLIENT)
-    /**
-     * A randomly called display update to be able to add particles or other items for display
-     */
     /*public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random)
     {
         for (int l = 0; l < 3; ++l)
@@ -106,13 +105,9 @@ public class BlockIChest extends BlockContainer {
         }
     }*/
 
-    @SideOnly(Side.CLIENT)
-
-    /**
-     * When this method is called, your block should register all the icons it needs with the given IconRegister. This
-     * is the only chance you get to register icons.
-     */
-    public void registerIcons(IconRegister par1IconRegister)
+    @Override
+	@SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister par1IconRegister)
     {
         this.blockIcon = par1IconRegister.registerIcon("obsidian");
     }

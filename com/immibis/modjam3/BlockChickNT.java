@@ -1,30 +1,18 @@
 package com.immibis.modjam3;
 
-import java.util.Random;
-
 import net.minecraft.block.BlockTNT;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.item.Item;
-import net.minecraft.util.Icon;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockChickNT extends BlockTNT {
-    public BlockChickNT(int par1) {
-        super(par1);
+    public BlockChickNT() {
+        super();
         
-        setTextureName("tnt");
-        setUnlocalizedName("immibis_modjam3.tnt");
+        setBlockTextureName("tnt");
+        setBlockName("immibis_modjam3.tnt");
     }
     
     public static class EntityChickNTPrimed extends EntityTNTPrimed {
@@ -40,7 +28,7 @@ public class BlockChickNT extends BlockTNT {
     	public void onUpdate() {
     		super.onUpdate();
     		
-    		if(fuse < 0) {
+    		if(!worldObj.isRemote && fuse < 0) {
     			for(int k = 0; k < 8; k++) {
     				EntityChicken c = new EntityChicken(worldObj);
     				c.setPosition(posX, posY, posZ);
@@ -52,8 +40,9 @@ public class BlockChickNT extends BlockTNT {
     		}
     	}
     }
-
-    public void primeTnt(World par1World, int par2, int par3, int par4, int par5, EntityLivingBase par6EntityLivingBase)
+    
+    @Override
+    public void func_150114_a(World par1World, int par2, int par3, int par4, int par5, EntityLivingBase par6EntityLivingBase)
     {
         if (!par1World.isRemote)
         {

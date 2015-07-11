@@ -9,8 +9,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ItemChickenStaff extends Item {
-	public ItemChickenStaff(int id) {
-		super(id);
+	public ItemChickenStaff() {
+		super();
 		
 		setUnlocalizedName("immibis_modjam3.chickenstaff");
 		setTextureName("immibis_modjam3:chickenstaff");

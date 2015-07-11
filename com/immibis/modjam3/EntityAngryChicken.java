@@ -1,25 +1,14 @@
 package com.immibis.modjam3;
 
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnchantmentThorns;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIBreakDoor;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMoveThroughVillage;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
-import net.minecraft.entity.ai.EntityAIMoveTowardsTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -38,10 +27,11 @@ public class EntityAngryChicken extends EntityChicken {
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 	}
 	
+	@Override
 	protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(60.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(60.0D);
     }
 	
 	@Override
@@ -75,6 +65,7 @@ public class EntityAngryChicken extends EntityChicken {
 	private double tdx, tdy, tdz;
 	private int randomizeTicks;
 	
+	@Override
 	public void onEntityUpdate() {
 		
 		setAttackTarget(target);
@@ -102,6 +93,7 @@ public class EntityAngryChicken extends EntityChicken {
 		}
 	}
 	
+	@Override
 	public boolean attackEntityAsMob(Entity par1Entity)
     {
 		float damage = 5;

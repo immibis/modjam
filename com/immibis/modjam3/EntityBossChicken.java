@@ -9,11 +9,10 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.Item;
+import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
@@ -67,14 +66,16 @@ public class EntityBossChicken extends EntityChicken implements IBossDisplayData
 		}
 	}
 	
+	@Override
 	protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(300.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.6D);
-        this.getEntityAttribute(SharedMonsterAttributes.followRange).setAttribute(40.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(300.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.6D);
+        this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(40.0D);
     }
 	
+	@Override
 	public boolean attackEntityAsMob(Entity par1Entity)
     {
 		float damage = 5;
@@ -94,13 +95,13 @@ public class EntityBossChicken extends EntityChicken implements IBossDisplayData
 	@Override
 	protected void dropFewItems(boolean par1, int par2) {
 		do
-			this.dropItem(Item.feather.itemID, worldObj.rand.nextInt(32) + 32);
+			this.dropItem(Items.feather, worldObj.rand.nextInt(32) + 32);
 		while(worldObj.rand.nextInt(3) != 0);
 		do
-			this.dropItem(Modjam3Mod.itemChickenBone.itemID, worldObj.rand.nextInt(32) + 32);
+			this.dropItem(Modjam3Mod.itemChickenBone, worldObj.rand.nextInt(32) + 32);
 		while(worldObj.rand.nextInt(3) != 0);
 		do
-			this.dropItem((isBurning() ? Item.chickenCooked : Item.chickenRaw).itemID, worldObj.rand.nextInt(32) + 32);
+			this.dropItem((isBurning() ? Items.cooked_chicken : Items.chicken), worldObj.rand.nextInt(32) + 32);
 		while(worldObj.rand.nextInt(3) != 0);
 	}
 	

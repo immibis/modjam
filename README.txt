@@ -58,23 +58,14 @@ For demonstration/testing purposes, I recommend crafting this instead of spawnin
 
   Known bug: Using your own chicken chest causes minor inventory sync issues.
              This is fixed by reopening the chest or picking up a desynced stack.
-             You've probably seen this kind of bug before with some other mod.
+             This does not duplicate items - check your inventory after you close the chest,
+             and any extra items should have disappeared.
 
 Try striking a chicken with lightning (e.g. from an elec-chick staff).
 Then kill the resulting chicken with a sword or bow.
 Then do it again, but this time kill it with lava.
 
 
-
-
-=== COMPILE INSTRUCTIONS ===
-This repository does not have any fancy build scripts. Compile however you like.
-
-Modjam rules require me to put instructions here anyway:
-
-* Set up Forge however you like.
-* Copy the source files to somewhere they'll get compiled.
-* Compile.
 
 
 === LIST OF BLOCKS AND ITEMS ADDED ===

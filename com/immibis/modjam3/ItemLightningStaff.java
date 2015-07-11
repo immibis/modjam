@@ -10,8 +10,8 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class ItemLightningStaff extends Item {
-	public ItemLightningStaff(int id) {
-		super(id);
+	public ItemLightningStaff() {
+		super();
 		
 		setTextureName("immibis_modjam3:lstaff");
 		setUnlocalizedName("immibis_modjam3.lstaff");
@@ -27,10 +27,10 @@ public class ItemLightningStaff extends Item {
 		
 		Vec3 lookdir = ply.getLook(1);
 		
-		Vec3 src = par2World.getWorldVec3Pool().getVecFromPool(ply.posX+lookdir.xCoord, ply.posY+lookdir.yCoord+ply.getEyeHeight(), ply.posZ+lookdir.zCoord);
+		Vec3 src = Vec3.createVectorHelper(ply.posX+lookdir.xCoord, ply.posY+lookdir.yCoord+ply.getEyeHeight(), ply.posZ+lookdir.zCoord);
 		Vec3 dst = src.addVector(lookdir.xCoord*RANGE, lookdir.yCoord*RANGE, lookdir.zCoord*RANGE);
 		
-		MovingObjectPosition rt = par2World.rayTraceBlocks_do_do(src, dst, true, true);
+		MovingObjectPosition rt = par2World.func_147447_a(src, dst, true, true, false);
 		if(rt == null)
 			return par1ItemStack;
 		

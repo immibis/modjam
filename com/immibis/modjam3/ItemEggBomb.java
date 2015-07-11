@@ -1,22 +1,16 @@
 package com.immibis.modjam3;
 
-import java.util.List;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.item.ItemEgg;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class ItemEggBomb extends ItemEgg {
-	public ItemEggBomb(int id) {
-		super(id);
+	public ItemEggBomb() {
+		super();
 		setUnlocalizedName("immibis_modjam3.eggbomb");
 		setTextureName("egg");
 	}
@@ -32,6 +26,7 @@ public class ItemEggBomb extends ItemEgg {
 			super(world, thrower);
 		}
 		
+		@Override
 		protected void onImpact(MovingObjectPosition par1MovingObjectPosition)
 	    {
 	        if (!this.worldObj.isRemote)

@@ -4,8 +4,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
 public class ItemChickenBeak extends Item {
-	public ItemChickenBeak(int id) {
-		super(id);
+	public ItemChickenBeak() {
+		super();
 		
 		setUnlocalizedName("immibis_modjam3.chickenbeak");
 		setTextureName("immibis_modjam3:chickenbeak");

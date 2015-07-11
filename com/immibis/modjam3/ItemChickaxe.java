@@ -1,6 +1,5 @@
 package com.immibis.modjam3;
 
-import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,8 +7,8 @@ import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 
 public class ItemChickaxe extends ItemPickaxe {
-	public ItemChickaxe(int id) {
-		super(id, Modjam3Mod.toolMaterialChicken);
+	public ItemChickaxe() {
+		super(Modjam3Mod.toolMaterialChicken);
 		
 		setCreativeTab(CreativeTabs.tabTools);
 		setTextureName("immibis_modjam3:chickaxe");

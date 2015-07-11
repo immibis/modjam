@@ -9,8 +9,8 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class ItemChickenWing extends Item {
-	public ItemChickenWing(int id) {
-		super(id);
+	public ItemChickenWing() {
+		super();
 		
 		setCreativeTab(CreativeTabs.tabTools);
 		
