@@ -20,6 +20,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -35,6 +36,11 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.world.ChunkDataEvent;
+
+import com.immibis.modjam3.translocator.CommandTrans;
+import com.immibis.modjam3.translocator.ItemTransLocator;
+import com.immibis.modjam3.translocator.TransLocatorSystem;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.Mod;
@@ -43,6 +49,7 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -88,6 +95,7 @@ public class Modjam3Mod implements IGuiHandler, IWorldGenerator {
 	public static Item itemChickenBeak;
 	public static Item itemLightningStaff;
 	public static Item itemEggBomb;
+	public static ItemTransLocator itemTransLocator;
 	
 	public static Item.ToolMaterial toolMaterialChicken = EnumHelper.addToolMaterial("IMMIBIS_MJ3", 1, 500, 16.0f, 0.0f, 35);
 	
@@ -100,6 +108,11 @@ public class Modjam3Mod implements IGuiHandler, IWorldGenerator {
 	public void preinit(FMLPreInitializationEvent evt) {
 		cfg = new Configuration(evt.getSuggestedConfigurationFile());
 		cfg.load();
+	}
+	
+	@EventHandler
+	public void onServerStart(FMLServerStartingEvent evt) {
+		evt.registerServerCommand(new CommandTrans());
 	}
 	
 	@EventHandler
@@ -122,6 +135,7 @@ public class Modjam3Mod implements IGuiHandler, IWorldGenerator {
 		itemChickenBeak = new ItemChickenBeak();
 		itemLightningStaff = new ItemLightningStaff();
 		itemEggBomb = new ItemEggBomb();
+		itemTransLocator = new ItemTransLocator();
 		
 		if(!MODJAM) {
 			itemRecords = new Item[] {
@@ -183,6 +197,7 @@ public class Modjam3Mod implements IGuiHandler, IWorldGenerator {
 		GameRegistry.registerBlock(blockChickenBlockBlock, "chickenblockblock");
 		GameRegistry.registerBlock(blockChickenPipe, "chickenpipe");
 		GameRegistry.registerBlock(blockChickNT, "chicknt");
+		GameRegistry.registerItem(itemTransLocator, "translocator");
 		
 		GameRegistry.registerTileEntity(TileEntityIChest.class, "immibis_modjam3.ichest");
 		
@@ -208,6 +223,7 @@ public class Modjam3Mod implements IGuiHandler, IWorldGenerator {
 		GameRegistry.addRecipe(new ItemStack(itemLightningStaff), "RR#", "R/R", "/RR", '#', itemChicken, '/', itemChickenBone, 'R', Items.redstone);
 		GameRegistry.addRecipe(new ItemStack(blockChickNT), "#O#", "O#O", "#O#", 'O', Items.gunpowder, '#', itemChicken);
 		FurnaceRecipes.smelting().func_151396_a(itemChicken, new ItemStack(itemChickenIngot), 1.5f);
+		GameRegistry.addShapelessRecipe(new ItemStack(itemTransLocator), itemChickenBone, Items.compass);
 		
 		EntityRegistry.registerModEntity(EntityAngryChicken.class, "angryChicken", 0, this, 100, 5, true);
 		EntityRegistry.registerModEntity(EntityPipedItem.class, "pipedItem", 1, this, 30, 1, true); // TODO change to 20 or so
@@ -219,6 +235,9 @@ public class Modjam3Mod implements IGuiHandler, IWorldGenerator {
 		FMLCommonHandler.instance().bus().register(this);
 		MinecraftForge.EVENT_BUS.register(this);
 		GameRegistry.registerWorldGenerator(this, 0);
+		
+		new TransLocatorSystem().init();
+		NetHandlerChickenBones.initServer();
 		
 		chickenOreGen = new WorldGenMinable(blockChickenOre, 8);
 		
@@ -376,13 +395,19 @@ public class Modjam3Mod implements IGuiHandler, IWorldGenerator {
 	
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent evt) {
-		if(evt.phase == TickEvent.Phase.END) {
+		if(evt.phase == TickEvent.Phase.END && !evt.player.worldObj.isRemote) {
 			EntityPlayer ply = evt.player;
 			if(ply.getFoodStats().getFoodLevel() < 18
 					&& ply.inventory.hasItem(Modjam3Mod.itemChickenBeak)
 					&& ply.inventory.consumeInventoryItem(Modjam3Mod.itemChickenNugget)) {
 				ply.getFoodStats().func_151686_a(Modjam3Mod.itemChickenNugget, new ItemStack(Modjam3Mod.itemChickenNugget));
 			}
+			
+			if(ply.inventory.hasItem(Modjam3Mod.itemTransLocator)
+				&& (ply.worldObj.getTotalWorldTime() % 6000) == 0)
+				ply.addChatMessage(new ChatComponentTranslation("immibis_modjam3.translocator.reminder"));
+				
+				
 		}
 	}
 }

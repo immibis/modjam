@@ -18,6 +18,7 @@ item.immibis_modjam3.wirelessredstone.name=Wireless Redstone (Chicken Bone Editi
 item.immibis_modjam3.chickenbeak.name=Chicken Beak
 item.immibis_modjam3.lstaff.name=Elec-chick staff
 item.immibis_modjam3.eggbomb.name=Egg Bomb
+item.immibis_modjam3.translocator.name=Trans Locator
 
 item.immibis_modjam3.axe.name=Hatchick
 item.immibis_modjam3.shovel.name=Chovel
@@ -33,3 +34,13 @@ death.attack.immibis_modjam3.chicken=%1$s was plucked to death
 entity.ChickenBones.bossChicken.name=Mother Clucker
 immibis_modjam3.use_wrcbe=You can't place wires with WIRELESS redstone!.
 immibis_modjam3.egg_subtitle=I got laid today.
+
+immibis_modjam3.cmd.trans.usage=Usage: %s
+immibis_modjam3.cmd.trans.players_only=This command only works for players.
+immibis_modjam3.cmd.trans.is.true=You are currently identifying as trans.
+immibis_modjam3.cmd.trans.is.false=You are currently identifying as cis.
+immibis_modjam3.cmd.trans.now.true=You are now identifying as trans.
+immibis_modjam3.cmd.trans.now.false=You are now identifying as cis. Check your privilege.
+immibis_modjam3.cmd.trans.already.true=You are already identifying as trans.
+immibis_modjam3.cmd.trans.already.false=You are already identifying as cis.
+immibis_modjam3.translocator.reminder=Check your privilege.

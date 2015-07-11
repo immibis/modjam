@@ -65,8 +65,10 @@ Try striking a chicken with lightning (e.g. from an elec-chick staff).
 Then kill the resulting chicken with a sword or bow.
 Then do it again, but this time kill it with lava.
 
-
-
+The Trans Locator will point at the nearest transgender player in the same dimension (except
+yourself). To identify as transgender, use '/cbtrans trans'. To identify as cisgender, use
+'/cbtrans cis'. It will also periodically remind you to check your privilege.
+(Transgender status affects nothing else, only whether the Trans Locator can point at you)
 
 === LIST OF BLOCKS AND ITEMS ADDED ===
 * Chicken
@@ -86,4 +88,5 @@ Then do it again, but this time kill it with lava.
 * Egg Staff
 * Elec-chick Staff
 * Chick'N'T
+* Trans Locator
 * Wireless Redstone (Chicken Bone Edition)
