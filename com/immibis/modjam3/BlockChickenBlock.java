@@ -35,8 +35,8 @@ public class BlockChickenBlock extends Block {
 	private static String[] names = {
 		"mob.chicken.hurt", "mob.chicken.hurt", "mob.chicken.hurt", "mob.chicken.hurt",
 		"mob.chicken.say","mob.chicken.say",
-		"immibis_modjam3:ichest.hurt2_50percent",
-		"immibis_modjam3:ichest.spindown",
+		"immibis_modjam3:immibis_modjam3.ichest.hurt2_50percent",
+		"immibis_modjam3:immibis_modjam3.ichest.spindown",
 	};
 	private static float[] pitches = {
 		1.0f, 1.2f, 1.4f, 0.8f,

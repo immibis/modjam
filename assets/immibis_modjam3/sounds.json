@@ -1,0 +1,22 @@
+{
+	"immibis_modjam3.ichest.doppler": {
+		"category": "player",
+		"sounds": ["immibis_modjam3:ichest/doppler"]
+	},
+	"immibis_modjam3.ichest.open": {
+		"category": "player",
+		"sounds": ["immibis_modjam3:ichest/open"]
+	},
+	"immibis_modjam3.ichest.close": {
+		"category": "player",
+		"sounds": ["immibis_modjam3:ichest/close"]
+	},
+	"immibis_modjam3.ichest.spindown": {
+		"category": "player",
+		"sounds": ["immibis_modjam3:ichest/spindown"]
+	},
+	"immibis_modjam3.ichest.hurt2_50percent": {
+		"category": "player",
+		"sounds": ["immibis_modjam3:ichest/hurt2_50percent"]
+	}
+}

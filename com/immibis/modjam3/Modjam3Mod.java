@@ -1,7 +1,6 @@
 package com.immibis.modjam3;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 
@@ -17,7 +16,6 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.ChatComponentTranslation;
@@ -67,9 +65,6 @@ public class Modjam3Mod implements IGuiHandler, IWorldGenerator {
 	
 	public static int GUI_ICHEST = 0;
 	
-	/** Disables some things that are not allowed for modjam */
-	public static final boolean MODJAM = false;
-	
 	public static final boolean CHICKENS_RIDE_STUFF = false;
 	
 	public static final double EGG_BOMB_CHANCE = 0.1;
@@ -90,7 +85,6 @@ public class Modjam3Mod implements IGuiHandler, IWorldGenerator {
 	public static Item itemChickaxe;
 	public static ItemFood itemChickenNugget;
 	public static ItemChickenWing itemChickenWing;
-	public static Item[] itemRecords;
 	public static Item itemWRCBE;
 	public static Item itemChickenBeak;
 	public static Item itemLightningStaff;
@@ -137,31 +131,6 @@ public class Modjam3Mod implements IGuiHandler, IWorldGenerator {
 		itemEggBomb = new ItemEggBomb();
 		itemTransLocator = new ItemTransLocator();
 		
-		if(!MODJAM) {
-			itemRecords = new Item[] {
-				new ItemRecord("immibis_modjam3:oli_chang_chicken_techno") {
-					@Override
-					public String getRecordNameLocal() {return "Oli Chang - Chicken Techno";}
-					@Override
-					public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-						super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
-						if(par1ItemStack.getItemDamage() == 3)
-							par3List.add("Crafts a random record.");
-					}
-				}.setUnlocalizedName("record").setTextureName("immibis_modjam3:record1"),
-				
-				new ItemRecord("immibis_modjam3:dj_bewan_chicken_song_full") {
-					@Override
-					public String getRecordNameLocal() {return "DJ Bewan - Chicken Song";}
-				}.setUnlocalizedName("record").setTextureName("immibis_modjam3:record2"),
-				
-				new ItemRecord("immibis_modjam3:dj_bewan_chicken_song_short") {
-					@Override
-					public String getRecordNameLocal() {return "DJ Bewan - Chicken Song (Short version)";}
-				}.setUnlocalizedName("record").setTextureName("immibis_modjam3:record3"),
-			};
-		}
-		
 		itemChickenCore2 = new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickencore").setUnlocalizedName("immibis_modjam3.chickencore");
 		itemChickenChunk = new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickenchunk").setUnlocalizedName("immibis_modjam3.chickenchunk");
 		itemChickenIngot = new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickeningot").setUnlocalizedName("immibis_modjam3.chickeningot");
@@ -184,11 +153,6 @@ public class Modjam3Mod implements IGuiHandler, IWorldGenerator {
 		GameRegistry.registerItem(itemChickenWing, "chickenWing");
 		GameRegistry.registerItem(itemLightningStaff, "lstaff");
 		GameRegistry.registerItem(itemEggBomb, "eggbomb");
-		if(!MODJAM) {
-			GameRegistry.registerItem(itemRecords[0], "record1");
-			GameRegistry.registerItem(itemRecords[1], "record2");
-			GameRegistry.registerItem(itemRecords[2], "record3");
-		}
 		GameRegistry.registerItem(itemWRCBE, "wrcbe");
 		GameRegistry.registerItem(itemChickenBeak, "chickenbeak");
 		GameRegistry.registerBlock(blockIChest, "ichest");
@@ -216,8 +180,6 @@ public class Modjam3Mod implements IGuiHandler, IWorldGenerator {
 		GameRegistry.addRecipe(new ItemStack(blockChickenBlockBlock), "###", "###", "###", '#', blockChickenBlock);
 		GameRegistry.addShapelessRecipe(new ItemStack(blockChickenOre), itemChicken, Blocks.stone);
 		GameRegistry.addRecipe(new ItemStack(itemChickenWing), "/#.", "O#.", "/  ", '.', itemChickenNugget, '#', blockChickenBlockBlock, '/', itemChickenBone, 'O', itemChickenCore2);
-		if(!MODJAM)
-			GameRegistry.addRecipe(new ItemStack(itemRecords[0], 1, 3), "###", "#O#", "###", 'O', itemChickenChunk, '#', Blocks.noteblock); // XXX for modjam
 		GameRegistry.addShapelessRecipe(new ItemStack(itemWRCBE), itemChickenBone, Items.redstone);
 		GameRegistry.addRecipe(new ItemStack(itemChickenBeak), "X#X", "#O#", "X#X", '#', itemChickenNugget, 'X', blockChickenBlock, 'O', itemChickenCore2);
 		GameRegistry.addRecipe(new ItemStack(itemLightningStaff), "RR#", "R/R", "/RR", '#', itemChicken, '/', itemChickenBone, 'R', Items.redstone);
@@ -282,11 +244,7 @@ public class Modjam3Mod implements IGuiHandler, IWorldGenerator {
 		ItemStack item = evt.crafting;
 		if(!evt.player.worldObj.isRemote) { 
 			if(item.getItem() == Item.getItemFromBlock(blockIChest))
-				evt.player.worldObj.playSoundAtEntity(evt.player, "immibis_modjam3:ichest.doppler", 1, 1);
-			if(!MODJAM && item.getItem() == itemRecords[0]) {
-				item.func_150996_a(itemRecords[evt.player.worldObj.rand.nextInt(itemRecords.length)]);
-				item.setItemDamage(0);
-			}
+				evt.player.worldObj.playSoundAtEntity(evt.player, "immibis_modjam3:immibis_modjam3.ichest.doppler", 1, 1);
 		}
 	}
 	

@@ -35,17 +35,6 @@ public class ClientProxy extends Proxy {
 		
 		FMLCommonHandler.instance().bus().register(this);
 		
-		// TODO sounds
-		/*Minecraft.getMinecraft().getSoundHandler().soundPoolSounds.addSound("immibis_modjam3:ichest/doppler.ogg");
-		Minecraft.getMinecraft().getSoundHandler().soundPoolSounds.addSound("immibis_modjam3:ichest/open.ogg");
-		Minecraft.getMinecraft().getSoundHandler().soundPoolSounds.addSound("immibis_modjam3:ichest/close.ogg");
-		Minecraft.getMinecraft().getSoundHandler().soundPoolSounds.addSound("immibis_modjam3:ichest/spindown.ogg");
-		Minecraft.getMinecraft().getSoundHandler().soundPoolSounds.addSound("immibis_modjam3:ichest/hurt2_50percent.ogg");
-		Minecraft.getMinecraft().getSoundHandler().soundPoolStreaming.addSound("immibis_modjam3:oli_chang_chicken_techno.ogg");
-		Minecraft.getMinecraft().getSoundHandler().soundPoolStreaming.addSound("immibis_modjam3:dj_bewan_chicken_song_full.ogg");
-		Minecraft.getMinecraft().getSoundHandler().soundPoolStreaming.addSound("immibis_modjam3:dj_bewan_chicken_song_short.ogg");
-		*/
-		
 		NetHandlerChickenBones.initClient();
 	}
 }
