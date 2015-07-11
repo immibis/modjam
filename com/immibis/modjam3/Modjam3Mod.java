@@ -76,7 +76,8 @@ public class Modjam3Mod implements IGuiHandler, IWorldGenerator {
 	public static Item itemChickenBone;
 	public static Item itemEggStaff;
 	public static ItemChicken itemChicken;
-	public static Item itemChickenCore;
+	public static Item itemChickenCore2;
+	public static Item itemChickenChunk;
 	public static Item itemChickenIngot;
 	public static ItemChickenStaff itemChickenStaff;
 	public static Item itemChickaxe;
@@ -125,7 +126,8 @@ public class Modjam3Mod implements IGuiHandler, IWorldGenerator {
 		if(!MODJAM) {
 			itemRecords = new Item[] {
 				new ItemRecord("immibis_modjam3:oli_chang_chicken_techno") {
-					public String getRecordTitle() {return "Oli Chang - Chicken Techno";}
+					@Override
+					public String getRecordNameLocal() {return "Oli Chang - Chicken Techno";}
 					@Override
 					public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
 						super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
@@ -135,16 +137,19 @@ public class Modjam3Mod implements IGuiHandler, IWorldGenerator {
 				}.setUnlocalizedName("record").setTextureName("immibis_modjam3:record1"),
 				
 				new ItemRecord("immibis_modjam3:dj_bewan_chicken_song_full") {
-					public String getRecordTitle() {return "DJ Bewan - Chicken Song";}
+					@Override
+					public String getRecordNameLocal() {return "DJ Bewan - Chicken Song";}
 				}.setUnlocalizedName("record").setTextureName("immibis_modjam3:record2"),
 				
 				new ItemRecord("immibis_modjam3:dj_bewan_chicken_song_short") {
-					public String getRecordTitle() {return "DJ Bewan - Chicken Song (Short version)";}
+					@Override
+					public String getRecordNameLocal() {return "DJ Bewan - Chicken Song (Short version)";}
 				}.setUnlocalizedName("record").setTextureName("immibis_modjam3:record3"),
 			};
 		}
 		
-		itemChickenCore = new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickencore").setUnlocalizedName("immibis_modjam3.chickencore");
+		itemChickenCore2 = new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickencore").setUnlocalizedName("immibis_modjam3.chickencore");
+		itemChickenChunk = new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickenchunk").setUnlocalizedName("immibis_modjam3.chickenchunk");
 		itemChickenIngot = new Item().setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickeningot").setUnlocalizedName("immibis_modjam3.chickeningot");
 		itemChickenNugget = (ItemFood)new ItemFood(1, 0, false).setCreativeTab(CreativeTabs.tabMaterials).setTextureName("immibis_modjam3:chickennugget").setUnlocalizedName("immibis_modjam3.chickennugget");
 		
@@ -156,7 +161,8 @@ public class Modjam3Mod implements IGuiHandler, IWorldGenerator {
 		GameRegistry.registerItem(itemChickenBone, "chickenbone");
 		GameRegistry.registerItem(itemEggStaff, "eggstaff");
 		GameRegistry.registerItem(itemChicken, "chicken");
-		GameRegistry.registerItem(itemChickenCore, "chickencore");
+		GameRegistry.registerItem(itemChickenCore2, "chickencore");
+		GameRegistry.registerItem(itemChickenChunk, "chickenchunk");
 		GameRegistry.registerItem(itemChickenIngot, "chickeningot");
 		GameRegistry.registerItem(itemChickenNugget, "chickennugget");
 		GameRegistry.registerItem(itemChickenStaff, "chickenstaff");
@@ -183,8 +189,9 @@ public class Modjam3Mod implements IGuiHandler, IWorldGenerator {
 		GameRegistry.addRecipe(new ItemStack(blockIChest), "###", "#C#", "###", 'C', Blocks.ender_chest, '#', itemChickenBone);
 		GameRegistry.addRecipe(new ItemStack(itemEggStaff), "  #", " / ", "/  ", '#', Items.egg, '/', itemChickenBone);
 		GameRegistry.addRecipe(new ItemStack(itemChickenBone), "#", '#', itemChicken);
-		GameRegistry.addRecipe(new ItemStack(itemChickenCore), "###", "#O#", "###", '#', itemChickenBone, 'O', Items.chicken);
-		GameRegistry.addRecipe(new ItemStack(itemChickenStaff), "  #", " / ", "/  ", '#', itemChickenCore, '/', itemChickenBone);
+		GameRegistry.addRecipe(new ItemStack(itemChickenChunk), "O O", " O ", "O O", 'O', Items.chicken);
+		GameRegistry.addRecipe(new ItemStack(itemChickenCore2), "R#G", "#O#", "G#R", '#', itemChickenBone, 'O', itemChickenChunk, 'R', Items.redstone, 'G', Items.glowstone_dust);
+		GameRegistry.addRecipe(new ItemStack(itemChickenStaff), "  #", " / ", "/  ", '#', itemChickenChunk, '/', itemChickenBone);
 		GameRegistry.addRecipe(new ItemStack(itemChickaxe), "###", " | ", " | ", '#', itemChickenIngot, '|', itemChickenBone);
 		GameRegistry.addRecipe(new ItemStack(itemChickenNugget, 9), "#", '#', itemChickenIngot);
 		GameRegistry.addRecipe(new ItemStack(itemChickenIngot), "###", "###", "###", '#', itemChickenNugget);
@@ -193,11 +200,11 @@ public class Modjam3Mod implements IGuiHandler, IWorldGenerator {
 		GameRegistry.addRecipe(new ItemStack(blockChickenBlock, 9), "#", '#', blockChickenBlockBlock);
 		GameRegistry.addRecipe(new ItemStack(blockChickenBlockBlock), "###", "###", "###", '#', blockChickenBlock);
 		GameRegistry.addShapelessRecipe(new ItemStack(blockChickenOre), itemChicken, Blocks.stone);
-		GameRegistry.addRecipe(new ItemStack(itemChickenWing), "/#.", "/#.", "/  ", '.', itemChickenNugget, '#', blockChickenBlockBlock, '/', itemChickenBone);
+		GameRegistry.addRecipe(new ItemStack(itemChickenWing), "/#.", "O#.", "/  ", '.', itemChickenNugget, '#', blockChickenBlockBlock, '/', itemChickenBone, 'O', itemChickenCore2);
 		if(!MODJAM)
-			GameRegistry.addRecipe(new ItemStack(itemRecords[0], 1, 3), "###", "#O#", "###", 'O', itemChickenCore, '#', Blocks.noteblock); // XXX for modjam
+			GameRegistry.addRecipe(new ItemStack(itemRecords[0], 1, 3), "###", "#O#", "###", 'O', itemChickenChunk, '#', Blocks.noteblock); // XXX for modjam
 		GameRegistry.addShapelessRecipe(new ItemStack(itemWRCBE), itemChickenBone, Items.redstone);
-		GameRegistry.addRecipe(new ItemStack(itemChickenBeak), "X#X", "#O#", "X#X", '#', itemChickenNugget, 'X', itemChickenCore, 'O', blockChickenBlockBlock);
+		GameRegistry.addRecipe(new ItemStack(itemChickenBeak), "X#X", "#O#", "X#X", '#', itemChickenNugget, 'X', blockChickenBlock, 'O', itemChickenCore2);
 		GameRegistry.addRecipe(new ItemStack(itemLightningStaff), "RR#", "R/R", "/RR", '#', itemChicken, '/', itemChickenBone, 'R', Items.redstone);
 		GameRegistry.addRecipe(new ItemStack(blockChickNT), "#O#", "O#O", "#O#", 'O', Items.gunpowder, '#', itemChicken);
 		FurnaceRecipes.smelting().func_151396_a(itemChicken, new ItemStack(itemChickenIngot), 1.5f);

@@ -18,6 +18,7 @@ public class BlockChickNT extends BlockTNT {
     public static class EntityChickNTPrimed extends EntityTNTPrimed {
     	public EntityChickNTPrimed(World w) {
     		super(w);
+    		fuse = 80;
     	}
     	
     	public EntityChickNTPrimed(World w, double x, double y, double z, EntityLivingBase owner) {
@@ -50,7 +51,7 @@ public class BlockChickNT extends BlockTNT {
             {
                 EntityTNTPrimed entitytntprimed = new EntityChickNTPrimed(par1World, (double)((float)par2 + 0.5F), (double)((float)par3 + 0.5F), (double)((float)par4 + 0.5F), par6EntityLivingBase);
                 par1World.spawnEntityInWorld(entitytntprimed);
-                par1World.playSoundAtEntity(entitytntprimed, "random.fuse", 1.0F, 1.0F);
+                par1World.playSoundAtEntity(entitytntprimed, "game.tnt.primed", 1.0F, 1.0F);
             }
         }
     }

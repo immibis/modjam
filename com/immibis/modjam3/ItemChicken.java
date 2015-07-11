@@ -1,5 +1,6 @@
 package com.immibis.modjam3;
 
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +15,10 @@ public class ItemChicken extends Item {
 		
 		setCreativeTab(CreativeTabs.tabMaterials);
 		setUnlocalizedName("immibis_modjam3.chicken");
+	}
+	
+	@Override
+	public void registerIcons(IIconRegister p_94581_1_) {
 	}
 	
 	@Override

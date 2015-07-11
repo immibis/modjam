@@ -76,6 +76,7 @@ Then do it again, but this time kill it with lava.
 * Chicken Block
 * Chicken Block Block
 * Chicken Chest
+* Chicken Chunk
 * Chicken Core
 * Chickaxe
 * ChickenStaff
