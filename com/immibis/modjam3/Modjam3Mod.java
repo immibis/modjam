@@ -209,7 +209,6 @@ public class Modjam3Mod implements IGuiHandler, IWorldGenerator {
 		EntityRegistry.registerModEntity(BlockChickNT.EntityChickNTPrimed.class, "chicknt", 4, this, 50, 20, false);
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, this);
-		FMLCommonHandler.instance().bus().register(new PlayerTickHandler());
 		FMLCommonHandler.instance().bus().register(this);
 		MinecraftForge.EVENT_BUS.register(this);
 		GameRegistry.registerWorldGenerator(this, 0);
@@ -365,6 +364,18 @@ public class Modjam3Mod implements IGuiHandler, IWorldGenerator {
 			evt.item.setDead();
 			evt.setCanceled(true);
 			ItemEggBomb.explode(evt.entity);
+		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerTick(TickEvent.PlayerTickEvent evt) {
+		if(evt.phase == TickEvent.Phase.END) {
+			EntityPlayer ply = evt.player;
+			if(ply.getFoodStats().getFoodLevel() < 18
+					&& ply.inventory.hasItem(Modjam3Mod.itemChickenBeak)
+					&& ply.inventory.consumeInventoryItem(Modjam3Mod.itemChickenNugget)) {
+				ply.getFoodStats().func_151686_a(Modjam3Mod.itemChickenNugget, new ItemStack(Modjam3Mod.itemChickenNugget));
+			}
 		}
 	}
 }
